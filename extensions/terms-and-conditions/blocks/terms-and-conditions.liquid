@@ -1,0 +1,13 @@
+<script src="{{ 'terms-and-conditions.js' | asset_url }}" defer></script>
+
+<script>
+  window.__termguardShop = {{ shop.permanent_domain | json }};
+</script>
+
+{% schema %}
+{
+  "name": "Terms Consent",
+  "target": "body",
+  "settings": []
+}
+{% endschema %}

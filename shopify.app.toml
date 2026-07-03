@@ -1,0 +1,36 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "07d59adaf9d7cb76e43e73f2ed6b6049"
+name = "TermGuard - Terms & Conditions"
+application_url = "https://checkout-consent.kaswebtechsolutions.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+
+[webhooks]
+api_version = "2026-07"
+
+  [[webhooks.subscriptions]]
+  uri = "/webhooks/app/scopes_update"
+  topics = [ "app/scopes_update" ]
+
+  [[webhooks.subscriptions]]
+  uri = "/webhooks/app/uninstalled"
+  topics = [ "app/uninstalled" ]
+
+  [[webhooks.subscriptions]]
+  uri = "/webhooks/compliance"
+  compliance_topics = [ "customers/data_request", "customers/redact", "shop/redact" ]
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_content,read_themes"
+
+[auth]
+redirect_urls = [ "https://checkout-consent.kaswebtechsolutions.com/api/auth" ]
+
+[app_proxy]
+url = "https://checkout-consent.kaswebtechsolutions.com"
+subpath = "termguard"
+prefix = "apps"

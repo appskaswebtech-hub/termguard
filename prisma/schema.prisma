@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id                  String    @id
+  shop                String
+  state               String
+  isOnline            Boolean   @default(false)
+  scope               String?
+  expires             DateTime?
+  accessToken         String
+  userId              BigInt?
+  firstName           String?
+  lastName            String?
+  email               String?
+  accountOwner        Boolean   @default(false)
+  locale              String?
+  collaborator        Boolean?  @default(false)
+  emailVerified       Boolean?  @default(false)
+  refreshToken        String?
+  refreshTokenExpires DateTime?
+}
+
+model Settings {
+  id                  Int      @id @default(autoincrement())
+  shop                String   @unique
+  agreementText       String   @default("I have read and agreed with the {link} and {link-2}")
+  links               Json
+  requireAcceptance   Boolean  @default(true)
+  helperText          String   @default("Required to complete checkout.")
+  errorMessage        String   @default("You must accept the terms and conditions to continue.")
+  errorDisplayType    String   @default("inline")
+  locationCart        Boolean  @default(true)
+  locationProduct     Boolean  @default(false)
+  locationCollection  Boolean  @default(false)
+  locationAllCheckout Boolean  @default(false)
+  locationCustom      Boolean  @default(false)
+  textColor           String   @default("#303030")
+  fontSize            Int      @default(14)
+  fontFamily          String   @default("Inherit")
+  alignment           String   @default("Left")
+  helperTextColor     String   @default("#6D7175")
+  helperFontSize      Int      @default(12)
+  spacingTop          Int      @default(0)
+  spacingRight        Int      @default(0)
+  spacingBottom       Int      @default(0)
+  spacingLeft         Int      @default(0)
+  checksByDefault     Boolean  @default(false)
+  checkboxStyle       String   @default("default")
+  uncheckedColor      String   @default("#9098A9")
+  checkedColor        String   @default("#000000")
+  linkColor           String   @default("#2C6ECB")
+  showLinkUnderline   Boolean  @default(true)
+  openLinksNewTab     Boolean  @default(true)
+  popupTitleColor     String   @default("#202223")
+  popupMessageColor   String   @default("#6D7175")
+  popupBtnTextColor   String   @default("#FFFFFF")
+  popupBtnBgColor     String   @default("#303030")
+  popupBgColor        String   @default("#FFFFFF")
+  popupIconColor      String   @default("#E55050")
+  customCss           String?  @db.Text
+  customScript        String?  @db.Text
+  setupGuideDismissed  Boolean  @default(false)
+  needHelpDismissed    Boolean  @default(false)
+  embedEnabled         Boolean  @default(false)
+  settingsCustomized   Boolean  @default(false)
+  previewCompleted     Boolean  @default(false)
+  language             String   @default("auto")
+  plan                 String   @default("free")
+  subscriptionId       String?
+  monthlyOrderCount    Int      @default(0)
+  orderCountResetDate  DateTime @default(now())
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model AnalyticsEvent {
+  id        Int      @id @default(autoincrement())
+  shop      String
+  location  String
+  checked   Boolean
+  blocked   Boolean
+  createdAt DateTime @default(now())
+
+  @@index([shop, createdAt])
+}
+
+model SupportMessage {
+  id               Int      @id @default(autoincrement())
+  shop             String
+  name             String
+  email            String
+  collaboratorCode String?
+  subject          String
+  storePassword    String?
+  pageInformation  String?
+  message          String   @db.Text
+  createdAt        DateTime @default(now())
+}
