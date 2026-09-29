@@ -16,6 +16,8 @@ export interface FeedSettings {
   showLoadingAnimation: boolean;
   linkToOriginalPost: boolean;
   showSliderPreviews: boolean;
+  /** When false, posts that arrive on a sync start hidden until the merchant shows them. */
+  autoShowNewPosts: boolean;
 }
 
 /** A post as the storefront block and the admin preview render it. */
@@ -48,6 +50,7 @@ export const DEFAULT_FEED: FeedSettings = {
   showLoadingAnimation: false,
   linkToOriginalPost: false,
   showSliderPreviews: false,
+  autoShowNewPosts: true,
 };
 
 // Pixel values shared by the admin preview and the storefront script
@@ -95,6 +98,7 @@ export function normalizeFeed(input: Partial<Record<keyof FeedSettings, unknown>
     showLoadingAnimation: src.showLoadingAnimation === true,
     linkToOriginalPost: src.linkToOriginalPost === true,
     showSliderPreviews: src.showSliderPreviews === true,
+    autoShowNewPosts: src.autoShowNewPosts !== false,
   };
 }
 

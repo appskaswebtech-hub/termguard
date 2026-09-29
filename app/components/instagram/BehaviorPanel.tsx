@@ -28,7 +28,8 @@ function Toggle({ checked, onChange, label }: { checked: boolean; onChange: () =
 export default function BehaviorPanel({ feed, onChange }: BehaviorPanelProps) {
   const t = useInstagramT();
 
-  const rows: { key: "showLoadingAnimation" | "linkToOriginalPost" | "showSliderPreviews"; title: string; desc: string; icon: string }[] = [
+  const rows: { key: "autoShowNewPosts" | "showLoadingAnimation" | "linkToOriginalPost" | "showSliderPreviews"; title: string; desc: string; icon: string }[] = [
+    { key: "autoShowNewPosts", title: t.autoShowTitle, desc: t.autoShowDesc, icon: "M12 5v14M5 12h14" },
     { key: "showLoadingAnimation", title: t.loadingTitle, desc: t.loadingDesc, icon: "M12 2a10 10 0 1 0 10 10M12 6v6l4 2" },
     { key: "linkToOriginalPost", title: t.linkTitle, desc: t.linkDesc, icon: "M14 4h6v6M10 14 20 4M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" },
     { key: "showSliderPreviews", title: t.peekTitle, desc: t.peekDesc, icon: "M4 4h6v16H4zM14 4h6v16h-6z" },

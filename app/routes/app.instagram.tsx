@@ -118,6 +118,14 @@ export const action = async ({ request }: ActionFunctionArgs): Promise<ActionRes
       return { intent, ok: true };
     }
 
+    case "bulkHidden": {
+      // ids come from the merchant's selection; scoping by shop keeps it to their own posts.
+      const ids = (JSON.parse(String(form.get("ids") || "[]")) as unknown[]).map(String).slice(0, 500);
+      const hidden = form.get("hidden") === "true";
+      if (ids.length) await db.instagramPost.updateMany({ where: { shop, id: { in: ids } }, data: { hidden } });
+      return { intent, ok: true, count: ids.length };
+    }
+
     case "addUrl": {
       const url = String(form.get("url") || "").trim();
       if (!isSafeHttpUrl(url)) return { intent, ok: false, error: "invalid-url" };
@@ -237,6 +245,7 @@ function InstagramFeedEditor({ shop, apiKey, configured, feed: savedFeed, posts,
       disconnect: t.disconnected,
       addUrl: data.ok ? t.added : t.invalidUrl,
       deleteMedia: t.removed,
+      bulkHidden: fmt(t.bulkUpdated, { count: data.count ?? 0 }),
     };
     if (messages[data.intent]) setToast({ content: messages[data.intent], error: !data.ok });
   }, [actionFetcher.state, actionFetcher.data, t]);
@@ -263,11 +272,17 @@ function InstagramFeedEditor({ shop, apiKey, configured, feed: savedFeed, posts,
   const busyId = actionFetcher.state !== "idle" ? String(actionFetcher.formData?.get("id") ?? "") || null : null;
   const busyConnection = pendingIntent === "connect" || pendingIntent === "sync" || pendingIntent === "disconnect" ? pendingIntent : null;
 
-  // Optimistic hide/show so the grid responds instantly.
-  const adminPosts = useMemo(
-    () => posts.map((p) => (pendingIntent === "toggleHidden" && busyId === p.id ? { ...p, hidden: !p.hidden } : p)),
-    [posts, pendingIntent, busyId],
-  );
+  // Optimistic hide/show (single and bulk) so the grid responds instantly.
+  const bulkIds = pendingIntent === "bulkHidden" ? String(actionFetcher.formData?.get("ids") ?? "[]") : null;
+  const bulkHidden = actionFetcher.formData?.get("hidden") === "true";
+  const adminPosts = useMemo(() => {
+    const bulk = bulkIds ? new Set<string>(JSON.parse(bulkIds)) : null;
+    return posts.map((p) => {
+      if (pendingIntent === "toggleHidden" && busyId === p.id) return { ...p, hidden: !p.hidden };
+      if (bulk?.has(p.id)) return { ...p, hidden: bulkHidden };
+      return p;
+    });
+  }, [posts, pendingIntent, busyId, bulkIds, bulkHidden]);
   const previewPosts = useMemo(
     () => filterPosts(adminPosts.filter((p) => !p.hidden), feed.postsToShow),
     [adminPosts, feed.postsToShow],
@@ -391,6 +406,8 @@ function InstagramFeedEditor({ shop, apiKey, configured, feed: savedFeed, posts,
                 onMove={(id, direction) => run("moveMedia", { id, direction })}
                 onCaption={(id, caption) => run("caption", { id, caption })}
                 onToggleHidden={(id) => run("toggleHidden", { id })}
+                onBulkHidden={(ids, hidden) => run("bulkHidden", { ids: JSON.stringify(ids), hidden: String(hidden) })}
+                autoShowNewPosts={savedFeed.autoShowNewPosts}
               />
             )}
             {tab === 2 && <BehaviorPanel feed={feed} onChange={(patch) => setFeed((prev) => ({ ...prev, ...patch }))} />}

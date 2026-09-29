@@ -13,9 +13,10 @@ import {
   TextField,
   Tooltip,
 } from "@shopify/polaris";
-import { ArrowDownIcon, ArrowUpIcon, DeleteIcon, EditIcon, HideIcon, ViewIcon } from "@shopify/polaris-icons";
+import { ArrowDownIcon, ArrowUpIcon, DeleteIcon, EditIcon } from "@shopify/polaris-icons";
 import type { FeedPost } from "../../utils/instagram-feed-types";
-import { fmt, useInstagramT } from "../../utils/instagram-i18n";
+import { useInstagramT } from "../../utils/instagram-i18n";
+import InstagramPostPicker from "./InstagramPostPicker";
 
 type AdminPost = FeedPost & { hidden: boolean };
 
@@ -30,6 +31,8 @@ interface MediaPanelProps {
   onMove: (id: string, direction: "up" | "down") => void;
   onCaption: (id: string, caption: string) => void;
   onToggleHidden: (id: string) => void;
+  onBulkHidden: (ids: string[], hidden: boolean) => void;
+  autoShowNewPosts: boolean;
 }
 
 // Custom media ids are prefixed in the feed payload; actions need the raw row id.
@@ -189,50 +192,13 @@ export default function MediaPanel(props: MediaPanelProps) {
       </Card>
 
       {instagramConnected && (
-        <Card>
-          <BlockStack gap="300">
-            <BlockStack gap="100">
-              <InlineStack gap="200" blockAlign="center">
-                <Text as="h2" variant="headingMd">{t.igPosts}</Text>
-                {instagram.length > 0 && (
-                  <Badge>{fmt(t.shownCount, { shown: instagram.filter((p) => !p.hidden).length, total: instagram.length })}</Badge>
-                )}
-              </InlineStack>
-              <Text as="p" variant="bodySm" tone="subdued">{t.igPostsDesc}</Text>
-            </BlockStack>
-
-            {instagram.length === 0 ? (
-              <Text as="p" tone="subdued">{t.igPostsEmpty}</Text>
-            ) : (
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(110px, 1fr))", gap: 10 }}>
-                {instagram.map((post) => (
-                  <div key={post.id} style={{ position: "relative", borderRadius: 10, overflow: "hidden", aspectRatio: "1 / 1", background: "#F3F4F6", opacity: busyId === post.id ? 0.5 : 1 }}>
-                    <img
-                      src={post.thumbnailUrl || post.mediaUrl}
-                      alt=""
-                      loading="lazy"
-                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", filter: post.hidden ? "grayscale(1)" : "none", opacity: post.hidden ? 0.35 : 1, transition: "all 0.2s" }}
-                    />
-                    {post.hidden && (
-                      <div style={{ position: "absolute", top: 6, left: 6 }}><Badge>{t.hidden}</Badge></div>
-                    )}
-                    <div style={{ position: "absolute", bottom: 6, right: 6, background: "#fff", borderRadius: 8, boxShadow: "0 1px 4px rgba(0,0,0,0.2)" }}>
-                      <Tooltip content={post.hidden ? t.show : t.hide}>
-                        <Button
-                          icon={post.hidden ? ViewIcon : HideIcon}
-                          variant="tertiary"
-                          size="slim"
-                          accessibilityLabel={post.hidden ? t.show : t.hide}
-                          onClick={() => props.onToggleHidden(post.id)}
-                        />
-                      </Tooltip>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </BlockStack>
-        </Card>
+        <InstagramPostPicker
+          posts={instagram}
+          busyId={busyId}
+          autoShowNewPosts={props.autoShowNewPosts}
+          onToggleHidden={props.onToggleHidden}
+          onBulkHidden={props.onBulkHidden}
+        />
       )}
     </BlockStack>
   );

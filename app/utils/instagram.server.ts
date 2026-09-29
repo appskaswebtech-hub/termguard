@@ -214,6 +214,9 @@ export async function syncInstagramPosts(shop: string) {
     const accessToken = await ensureFreshToken(account);
     // Copyrighted-audio reels come back without a media_url; they can't be displayed.
     const media = (await fetchRecentMedia(accessToken)).filter((node) => node.media_url || node.thumbnail_url);
+    // "Hide new posts until I approve them" mode: brand-new posts start hidden.
+    const feed = await db.instagramFeed.findUnique({ where: { shop }, select: { autoShowNewPosts: true } });
+    const hideNewPosts = feed ? !feed.autoShowNewPosts : false;
 
     await db.$transaction([
       ...media.map((node) => {
@@ -229,7 +232,7 @@ export async function syncInstagramPosts(shop: string) {
         // `hidden` is intentionally left out of `update` so merchant choices survive re-syncs.
         return db.instagramPost.upsert({
           where: { shop_igMediaId: { shop, igMediaId: node.id } },
-          create: { shop, igMediaId: node.id, ...data },
+          create: { shop, igMediaId: node.id, ...data, hidden: hideNewPosts },
           update: data,
         });
       }),

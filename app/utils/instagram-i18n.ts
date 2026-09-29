@@ -137,6 +137,19 @@ const en = {
   proBadge: "PRO FEATURE",
   proLockedDesc: "Show your Instagram posts, reels and your own photos & videos as a beautiful gallery on your store. Available on the Pro plan — $6.99/month with a 7-day free trial.",
   proCta: "Upgrade to Pro",
+  filterAll: "All",
+  filterShown: "Shown",
+  filterHidden: "Hidden",
+  filterEmpty: "No posts in this view.",
+  selectAll: "Select all",
+  clearSelection: "Clear",
+  selectedCount: "{count} selected",
+  showSelected: "Show",
+  hideSelected: "Hide",
+  bulkUpdated: "Updated {count} posts",
+  newPostsHiddenNote: "New posts are hidden until you show them (change this in the Behavior tab).",
+  autoShowTitle: "Show new Instagram posts automatically",
+  autoShowDesc: "When off, new posts from Instagram stay hidden until you choose to show them in the Media tab.",
 };
 
 type InstagramStrings = typeof en;
@@ -182,7 +195,7 @@ const es: Partial<InstagramStrings> = {
   linkTitle: "Enlace a Instagram en la ventana emergente", linkDesc: "Añade un enlace “Ver en Instagram” en la ventana emergente de las publicaciones de Instagram.",
   peekTitle: "Mostrar publicaciones vecinas en carruseles", peekDesc: "Muestra los bordes de las publicaciones contiguas para indicar que se puede deslizar.",
   homeTitle: "Feed de Instagram", homeDesc: "Convierte tu Instagram en una galería para tu tienda: publicaciones, reels y tu propio contenido.",
-  homeCta: "Configurar feed", homeManage: "Gestionar feed", newBadge: "Nuevo", viewOnInstagram: "Ver en Instagram", proBadge: "FUNCIÓN PRO", proLockedDesc: "Muestra tus publicaciones y reels de Instagram y tus propias fotos y vídeos como una galería en tu tienda. Disponible en el plan Pro: $6.99/mes con 7 días de prueba gratis.", proCta: "Mejorar a Pro",
+  homeCta: "Configurar feed", homeManage: "Gestionar feed", newBadge: "Nuevo", viewOnInstagram: "Ver en Instagram", proBadge: "FUNCIÓN PRO", proLockedDesc: "Muestra tus publicaciones y reels de Instagram y tus propias fotos y vídeos como una galería en tu tienda. Disponible en el plan Pro: $6.99/mes con 7 días de prueba gratis.", proCta: "Mejorar a Pro", filterAll: "Todas", filterShown: "Visibles", filterHidden: "Ocultas", filterEmpty: "No hay publicaciones en esta vista.", selectAll: "Seleccionar todo", clearSelection: "Borrar", selectedCount: "{count} seleccionadas", showSelected: "Mostrar", hideSelected: "Ocultar", bulkUpdated: "{count} publicaciones actualizadas", newPostsHiddenNote: "Las publicaciones nuevas quedan ocultas hasta que las muestres (cámbialo en la pestaña Comportamiento).", autoShowTitle: "Mostrar automáticamente las nuevas publicaciones", autoShowDesc: "Si está desactivado, las nuevas publicaciones de Instagram quedan ocultas hasta que decidas mostrarlas en la pestaña Contenido.",
 };
 
 const it: Partial<InstagramStrings> = {
@@ -226,7 +239,7 @@ const it: Partial<InstagramStrings> = {
   linkTitle: "Link a Instagram nel popup", linkDesc: "Aggiunge il link “Vedi su Instagram” nel popup dei post Instagram.",
   peekTitle: "Mostra i post vicini negli slider", peekDesc: "Mostra i bordi dei post adiacenti per indicare che si può scorrere.",
   homeTitle: "Feed Instagram", homeDesc: "Trasforma il tuo Instagram in una galleria per il negozio: post, reel e i tuoi contenuti.",
-  homeCta: "Configura feed", homeManage: "Gestisci feed", newBadge: "Nuovo", viewOnInstagram: "Vedi su Instagram", proBadge: "FUNZIONE PRO", proLockedDesc: "Mostra post e reel di Instagram e le tue foto e video come una galleria nel tuo negozio. Disponibile nel piano Pro: $6.99/mese con 7 giorni di prova gratuita.", proCta: "Passa a Pro",
+  homeCta: "Configura feed", homeManage: "Gestisci feed", newBadge: "Nuovo", viewOnInstagram: "Vedi su Instagram", proBadge: "FUNZIONE PRO", proLockedDesc: "Mostra post e reel di Instagram e le tue foto e video come una galleria nel tuo negozio. Disponibile nel piano Pro: $6.99/mese con 7 giorni di prova gratuita.", proCta: "Passa a Pro", filterAll: "Tutti", filterShown: "Visibili", filterHidden: "Nascosti", filterEmpty: "Nessun post in questa vista.", selectAll: "Seleziona tutto", clearSelection: "Annulla", selectedCount: "{count} selezionati", showSelected: "Mostra", hideSelected: "Nascondi", bulkUpdated: "{count} post aggiornati", newPostsHiddenNote: "I nuovi post restano nascosti finché non li mostri (modificalo nella scheda Comportamento).", autoShowTitle: "Mostra automaticamente i nuovi post", autoShowDesc: "Se disattivato, i nuovi post di Instagram restano nascosti finché non scegli di mostrarli nella scheda Contenuti.",
 };
 
 const de: Partial<InstagramStrings> = {
@@ -270,7 +283,7 @@ const de: Partial<InstagramStrings> = {
   linkTitle: "Link zu Instagram im Popup", linkDesc: "Fügt im Popup von Instagram-Beiträgen den Link „Auf Instagram ansehen“ hinzu.",
   peekTitle: "Nachbarbeiträge im Slider anzeigen", peekDesc: "Zeigt die Ränder benachbarter Beiträge, damit Kunden wissen, dass sie wischen können.",
   homeTitle: "Instagram-Feed", homeDesc: "Mach dein Instagram zur Shop-Galerie: Beiträge, Reels und eigene Medien.",
-  homeCta: "Feed einrichten", homeManage: "Feed verwalten", newBadge: "Neu", viewOnInstagram: "Auf Instagram ansehen", proBadge: "PRO-FUNKTION", proLockedDesc: "Zeige Instagram-Beiträge, Reels und eigene Fotos & Videos als Galerie in deinem Shop. Im Pro-Plan verfügbar: $6.99/Monat mit 7 Tagen kostenlosem Test.", proCta: "Auf Pro upgraden",
+  homeCta: "Feed einrichten", homeManage: "Feed verwalten", newBadge: "Neu", viewOnInstagram: "Auf Instagram ansehen", proBadge: "PRO-FUNKTION", proLockedDesc: "Zeige Instagram-Beiträge, Reels und eigene Fotos & Videos als Galerie in deinem Shop. Im Pro-Plan verfügbar: $6.99/Monat mit 7 Tagen kostenlosem Test.", proCta: "Auf Pro upgraden", filterAll: "Alle", filterShown: "Sichtbar", filterHidden: "Ausgeblendet", filterEmpty: "Keine Beiträge in dieser Ansicht.", selectAll: "Alle auswählen", clearSelection: "Aufheben", selectedCount: "{count} ausgewählt", showSelected: "Einblenden", hideSelected: "Ausblenden", bulkUpdated: "{count} Beiträge aktualisiert", newPostsHiddenNote: "Neue Beiträge bleiben ausgeblendet, bis du sie einblendest (änderbar im Tab Verhalten).", autoShowTitle: "Neue Instagram-Beiträge automatisch anzeigen", autoShowDesc: "Wenn aus, bleiben neue Instagram-Beiträge ausgeblendet, bis du sie im Tab Medien einblendest.",
 };
 
 const fr: Partial<InstagramStrings> = {
@@ -314,7 +327,7 @@ const fr: Partial<InstagramStrings> = {
   linkTitle: "Lien vers Instagram dans la fenêtre", linkDesc: "Ajoute un lien « Voir sur Instagram » dans la fenêtre des publications Instagram.",
   peekTitle: "Afficher les publications voisines dans les carrousels", peekDesc: "Montre les bords des publications adjacentes pour indiquer qu'on peut faire défiler.",
   homeTitle: "Flux Instagram", homeDesc: "Transformez votre Instagram en galerie pour votre boutique : publications, reels et vos propres médias.",
-  homeCta: "Configurer le flux", homeManage: "Gérer le flux", newBadge: "Nouveau", viewOnInstagram: "Voir sur Instagram", proBadge: "FONCTION PRO", proLockedDesc: "Affichez vos publications et reels Instagram ainsi que vos propres photos et vidéos sous forme de galerie dans votre boutique. Disponible avec le plan Pro : 6,99 $/mois avec 7 jours d’essai gratuit.", proCta: "Passer à Pro",
+  homeCta: "Configurer le flux", homeManage: "Gérer le flux", newBadge: "Nouveau", viewOnInstagram: "Voir sur Instagram", proBadge: "FONCTION PRO", proLockedDesc: "Affichez vos publications et reels Instagram ainsi que vos propres photos et vidéos sous forme de galerie dans votre boutique. Disponible avec le plan Pro : 6,99 $/mois avec 7 jours d’essai gratuit.", proCta: "Passer à Pro", filterAll: "Toutes", filterShown: "Affichées", filterHidden: "Masquées", filterEmpty: "Aucune publication dans cette vue.", selectAll: "Tout sélectionner", clearSelection: "Effacer", selectedCount: "{count} sélectionnées", showSelected: "Afficher", hideSelected: "Masquer", bulkUpdated: "{count} publications mises à jour", newPostsHiddenNote: "Les nouvelles publications restent masquées jusqu’à ce que vous les affichiez (modifiable dans l’onglet Comportement).", autoShowTitle: "Afficher automatiquement les nouvelles publications", autoShowDesc: "Si désactivé, les nouvelles publications Instagram restent masquées jusqu’à ce que vous les affichiez dans l’onglet Médias.",
 };
 
 const STRINGS: Record<string, Partial<InstagramStrings>> = { en, es, it, de, fr };
