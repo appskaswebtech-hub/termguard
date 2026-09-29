@@ -90,15 +90,6 @@ function FeatureItem({ label, included }: { label: string; included: boolean }) 
   );
 }
 
-function PlanCell({ value }: { value: string | boolean }) {
-  if (typeof value === "string") return <span style={{ fontWeight: 600, color: "#111827" }}>{value}</span>;
-  return value ? (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-  ) : (
-    <span style={{ color: "#D1D5DB", fontWeight: 600 }}>—</span>
-  );
-}
-
 export default function Billing() {
   const { plan, isDevStore, shop, monthlyOrderCount, subscriptionEndDate, trialDays } = useLoaderData<typeof loader>();
   const actionData = useActionData<{ confirmationUrl?: string }>();
@@ -250,39 +241,6 @@ export default function Billing() {
             </button>
           )}
         </div>
-      </div>
-
-      {/* Plan comparison */}
-      <div style={{ background: "#fff", borderRadius: 12, padding: "20px 24px", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-        <div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 14 }}>{t.billing.comparison}</div>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-          <thead>
-            <tr style={{ textAlign: "left", color: "#6B7280" }}>
-              <th style={{ padding: "8px 0", fontWeight: 600 }}>{t.billing.featureCol}</th>
-              <th style={{ padding: "8px 0", fontWeight: 600, textAlign: "center", width: 110 }}>{t.billing.free}</th>
-              <th style={{ padding: "8px 0", fontWeight: 600, textAlign: "center", width: 110, color: "#2563EB" }}>{t.billing.pro}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {([
-              [t.billing.checkoutsRow, "10", t.billing.unlimitedShort],
-              [t.billing.termsRow, true, true],
-              [t.billing.feat.design, true, true],
-              [t.billing.feat.analytics, true, true],
-              [t.billing.feat.customMsg, false, true],
-              [t.billing.feat.instagram, false, true],
-              [t.billing.feat.layouts, false, true],
-              [t.billing.feat.media, false, true],
-              [t.billing.feat.priority, false, true],
-            ] as [string, string | boolean, string | boolean][]).map(([label, free, pro]) => (
-              <tr key={label} style={{ borderTop: "1px solid #F3F4F6" }}>
-                <td style={{ padding: "10px 0", color: "#374151" }}>{label}</td>
-                <td style={{ padding: "10px 0", textAlign: "center" }}><PlanCell value={free} /></td>
-                <td style={{ padding: "10px 0", textAlign: "center" }}><PlanCell value={pro} /></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </div>
     </div>
   );
