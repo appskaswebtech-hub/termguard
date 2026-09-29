@@ -9,6 +9,8 @@ import { isAppEmbedEnabled } from "../utils/theme-embed.server";
 import { useT } from "../utils/i18n";
 import SetupGuide from "../components/SetupGuide";
 import AnalyticsOverview from "../components/AnalyticsOverview";
+import InstagramHomeCard from "../components/instagram/InstagramHomeCard";
+import { getFeedPosts } from "../utils/instagram-feed.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { session } = await authenticate.admin(request);
@@ -27,16 +29,23 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     }
   }
 
-  const [totalChecks, cartChecks, productChecks] = await Promise.all([
+  const [totalChecks, cartChecks, productChecks, instagramAccount, feedPosts] = await Promise.all([
     db.analyticsEvent.count({ where: { shop, checked: true } }),
     db.analyticsEvent.count({ where: { shop, checked: true, location: "cart" } }),
     db.analyticsEvent.count({ where: { shop, checked: true, location: "product" } }),
+    db.instagramAccount.findUnique({ where: { shop }, select: { username: true } }),
+    getFeedPosts(shop),
   ]);
 
   return {
     shop,
     settings,
     stats: { totalChecks, cartChecks, productChecks },
+    instagram: {
+      username: instagramAccount?.username ?? null,
+      postCount: feedPosts.length,
+      thumbnails: feedPosts.slice(0, 4).map((p) => p.thumbnailUrl || p.mediaUrl),
+    },
     appEmbedUuid: process.env.APP_EMBED_UUID || "",
     plan: settings.plan,
     overLimit: settings.plan === "free" && settings.monthlyOrderCount >= 10,
@@ -92,7 +101,7 @@ function FaqAccordion() {
 }
 
 export default function Index() {
-  const { shop, settings, stats, appEmbedUuid, overLimit, monthlyOrderCount } = useLoaderData<typeof loader>();
+  const { shop, settings, stats, instagram, appEmbedUuid, overLimit, monthlyOrderCount } = useLoaderData<typeof loader>();
   const fetcher = useFetcher();
   const t = useT();
 
@@ -102,7 +111,6 @@ export default function Index() {
   };
 
   const dismissSetupGuide = () => fetcher.submit({ intent: "dismissSetupGuide" }, { method: "POST" });
-  const dismissNeedHelp = () => fetcher.submit({ intent: "dismissNeedHelp" }, { method: "POST" });
 
   return (
     <div style={{ padding: "24px 28px", maxWidth: 1100, margin: "0 auto" }}>
@@ -145,6 +153,8 @@ export default function Index() {
           </div>
         )}
 
+        <InstagramHomeCard username={instagram.username} postCount={instagram.postCount} thumbnails={instagram.thumbnails} isPro={settings.plan === "pro"} />
+
         <AnalyticsOverview
           totalChecks={stats.totalChecks}
           cartChecks={stats.cartChecks}
@@ -155,30 +165,9 @@ export default function Index() {
         <div style={{ background: "#fff", borderRadius: 12, padding: 24, boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
             <div style={{ fontSize: 16, fontWeight: 700, color: "#111827" }}>{t.dashboard.faqTitle}</div>
-            <a href="/app/support" style={{ fontSize: 13, color: "#3B82F6", textDecoration: "none", fontWeight: 500 }}>{t.dashboard.visitSupport}</a>
           </div>
           <FaqAccordion />
         </div>
-
-        {/* Need Help */}
-        {!settings.needHelpDismissed && (
-          <div style={{ background: "#EFF6FF", borderRadius: 12, padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: "#1E40AF" }}>{t.dashboard.needHelp}</div>
-              <div style={{ fontSize: 13, color: "#3B82F6", marginTop: 2 }}>{t.dashboard.needHelpDesc}</div>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <a href="/app/support" style={{ background: "#3B82F6", color: "#fff", padding: "8px 16px", borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
-                {t.common.contactSupport}
-              </a>
-              <button onClick={dismissNeedHelp} style={{ background: "none", border: "none", cursor: "pointer", color: "#93C5FD", padding: 4 }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                  <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

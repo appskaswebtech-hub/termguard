@@ -44,6 +44,24 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     },
   });
 
+  if (process.env.DASHBOARD_URL && process.env.DASHBOARD_API_KEY) {
+    fetch(`${process.env.DASHBOARD_URL}/api/messages/incoming`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        appId: "termguard",
+        apiKey: process.env.DASHBOARD_API_KEY,
+        shop: session.shop,
+        name: body.name || "Anonymous",
+        email: body.email || "",
+        subject: body.subject || "Chat message",
+        message: body.message || "",
+      }),
+    }).catch((error) => {
+      console.error("Failed to forward support message to dashboard", error);
+    });
+  }
+
   return { ok: true };
 };
 

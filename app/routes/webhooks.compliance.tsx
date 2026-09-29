@@ -1,6 +1,7 @@
 import type { ActionFunctionArgs } from "react-router";
 import { authenticate } from "../shopify.server";
 import db from "../db.server";
+import { deleteAllInstagramData } from "../utils/instagram-feed.server";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const { topic, shop } = await authenticate.webhook(request);
@@ -12,6 +13,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     await db.settings.deleteMany({ where: { shop } });
     await db.analyticsEvent.deleteMany({ where: { shop } });
     await db.supportMessage.deleteMany({ where: { shop } });
+    await deleteAllInstagramData(shop);
     await db.session.deleteMany({ where: { shop } });
   }
 

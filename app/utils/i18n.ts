@@ -4,7 +4,7 @@ type AppLoaderData = { language?: string };
 
 const TRANSLATIONS = {
   en: {
-    nav: { home: "TermGuard", analytics: "Analytics", settings: "Settings", billing: "Billing", support: "Support" },
+    nav: { home: "TermGuard", analytics: "Analytics", settings: "Settings", instagram: "Instagram feed", billing: "Billing", support: "Support" },
     common: { save: "Save", saved: "Settings saved", dismiss: "Dismiss", back: "Home", cancel: "Cancel", upgrade: "Upgrade to Pro — $6.99/month", contactSupport: "Contact Support" },
     dashboard: {
       title: "TermGuard",
@@ -91,7 +91,9 @@ const TRANSLATIONS = {
       upgradeCta: "Upgrade to Pro", comparison: "Plan comparison",
       comparisonDesc: "The free plan is great for small stores. Once you exceed 10 checkouts per month, upgrade to Pro to keep the consent checkbox active and allow unlimited checkouts through TermGuard.",
       comparisonDesc2: "On the Pro plan, you also unlock the ability to fully customize the error message shown when customers try to checkout without accepting the terms.",
-      feat: { orders10: "10 checkouts per month", design: "All design options", analytics: "Analytics dashboard", lockedMsg: "Default error message (not editable)", unlimited: "Unlimited checkouts", customMsg: "Custom error message", priority: "Priority support" },
+      feat: { orders10: "10 checkouts per month", design: "All design options", analytics: "Analytics dashboard", lockedMsg: "Default error message (not editable)", unlimited: "Unlimited checkouts", customMsg: "Custom error message", priority: "Priority support", instagram: "Instagram feed (auto-sync posts & reels)", layouts: "Grid, slider, list & floating gallery layouts", media: "Upload your own photos & videos" },
+      devTitle: "Development store — everything is free", devDesc: "All Pro features, including the Instagram feed, are free while you build or test on a development store. No subscription needed.", devFree: "Free on development stores",
+      featureCol: "Feature", checkoutsRow: "Checkouts per month", unlimitedShort: "Unlimited", termsRow: "Terms & conditions checkbox",
     },
     support: {
       title: "Support", name: "Your name", email: "Email",
@@ -106,7 +108,7 @@ const TRANSLATIONS = {
   },
 
   es: {
-    nav: { home: "TermGuard", analytics: "Analíticas", settings: "Configuración", billing: "Facturación", support: "Soporte" },
+    nav: { home: "TermGuard", analytics: "Analíticas", settings: "Configuración", instagram: "Feed de Instagram", billing: "Facturación", support: "Soporte" },
     common: { save: "Guardar", saved: "Configuración guardada", dismiss: "Descartar", back: "Inicio", cancel: "Cancelar", upgrade: "Actualizar a Pro — $6.99/mes", contactSupport: "Contactar soporte" },
     dashboard: {
       title: "TermGuard",
@@ -193,7 +195,9 @@ const TRANSLATIONS = {
       upgradeCta: "Actualizar a Pro", comparison: "Comparación de planes",
       comparisonDesc: "El plan gratuito es ideal para tiendas pequeñas. Una vez superes los 10 pagos al mes, actualiza a Pro.",
       comparisonDesc2: "Con el plan Pro, también puedes personalizar completamente el mensaje de error.",
-      feat: { orders10: "10 pagos por mes", design: "Todas las opciones de diseño", analytics: "Panel de analíticas", lockedMsg: "Mensaje de error predeterminado (no editable)", unlimited: "Pagos ilimitados", customMsg: "Mensaje de error personalizado", priority: "Soporte prioritario" },
+      feat: { orders10: "10 pagos por mes", design: "Todas las opciones de diseño", analytics: "Panel de analíticas", lockedMsg: "Mensaje de error predeterminado (no editable)", unlimited: "Pagos ilimitados", customMsg: "Mensaje de error personalizado", priority: "Soporte prioritario", instagram: "Feed de Instagram (sincroniza publicaciones y reels)", layouts: "Galería en cuadrícula, carrusel, lista y burbuja flotante", media: "Sube tus propias fotos y vídeos" },
+      devTitle: "Tienda de desarrollo — todo es gratis", devDesc: "Todas las funciones Pro, incluido el feed de Instagram, son gratis mientras desarrollas o pruebas en una tienda de desarrollo. No necesitas suscripción.", devFree: "Gratis en tiendas de desarrollo",
+      featureCol: "Función", checkoutsRow: "Pagos por mes", unlimitedShort: "Ilimitados", termsRow: "Casilla de términos y condiciones",
     },
     support: {
       title: "Soporte", name: "Tu nombre", email: "Correo electrónico",
@@ -208,7 +212,7 @@ const TRANSLATIONS = {
   },
 
   it: {
-    nav: { home: "TermGuard", analytics: "Analitiche", settings: "Impostazioni", billing: "Fatturazione", support: "Supporto" },
+    nav: { home: "TermGuard", analytics: "Analitiche", settings: "Impostazioni", instagram: "Feed Instagram", billing: "Fatturazione", support: "Supporto" },
     common: { save: "Salva", saved: "Impostazioni salvate", dismiss: "Chiudi", back: "Home", cancel: "Annulla", upgrade: "Passa a Pro — $6.99/mese", contactSupport: "Contatta il supporto" },
     dashboard: {
       title: "TermGuard",
@@ -295,7 +299,9 @@ const TRANSLATIONS = {
       upgradeCta: "Passa a Pro", comparison: "Confronto piani",
       comparisonDesc: "Il piano gratuito è ottimo per piccoli negozi. Superati i 10 checkout al mese, passa a Pro.",
       comparisonDesc2: "Con il piano Pro puoi anche personalizzare completamente il messaggio di errore.",
-      feat: { orders10: "10 checkout al mese", design: "Tutte le opzioni di design", analytics: "Dashboard analitiche", lockedMsg: "Messaggio di errore predefinito (non modificabile)", unlimited: "Checkout illimitati", customMsg: "Messaggio di errore personalizzato", priority: "Supporto prioritario" },
+      feat: { orders10: "10 checkout al mese", design: "Tutte le opzioni di design", analytics: "Dashboard analitiche", lockedMsg: "Messaggio di errore predefinito (non modificabile)", unlimited: "Checkout illimitati", customMsg: "Messaggio di errore personalizzato", priority: "Supporto prioritario", instagram: "Feed Instagram (sincronizza post e reel)", layouts: "Galleria a griglia, slider, elenco e bolla fluttuante", media: "Carica le tue foto e i tuoi video" },
+      devTitle: "Negozio di sviluppo — tutto gratis", devDesc: "Tutte le funzionalità Pro, incluso il feed Instagram, sono gratuite mentre sviluppi o testi su un negozio di sviluppo. Nessun abbonamento necessario.", devFree: "Gratis sui negozi di sviluppo",
+      featureCol: "Funzione", checkoutsRow: "Checkout al mese", unlimitedShort: "Illimitati", termsRow: "Casella termini e condizioni",
     },
     support: {
       title: "Supporto", name: "Il tuo nome", email: "Email",
@@ -310,7 +316,7 @@ const TRANSLATIONS = {
   },
 
   de: {
-    nav: { home: "TermGuard", analytics: "Analysen", settings: "Einstellungen", billing: "Abrechnung", support: "Support" },
+    nav: { home: "TermGuard", analytics: "Analysen", settings: "Einstellungen", instagram: "Instagram-Feed", billing: "Abrechnung", support: "Support" },
     common: { save: "Speichern", saved: "Einstellungen gespeichert", dismiss: "Schließen", back: "Startseite", cancel: "Abbrechen", upgrade: "Auf Pro upgraden — $6.99/Monat", contactSupport: "Support kontaktieren" },
     dashboard: {
       title: "TermGuard",
@@ -397,7 +403,9 @@ const TRANSLATIONS = {
       upgradeCta: "Auf Pro upgraden", comparison: "Planvergleich",
       comparisonDesc: "Der kostenlose Plan eignet sich für kleine Shops. Ab 10 Checkouts pro Monat upgraden Sie auf Pro.",
       comparisonDesc2: "Mit dem Pro-Plan können Sie auch die Fehlermeldung vollständig anpassen.",
-      feat: { orders10: "10 Checkouts pro Monat", design: "Alle Design-Optionen", analytics: "Analyse-Dashboard", lockedMsg: "Standard-Fehlermeldung (nicht bearbeitbar)", unlimited: "Unbegrenzte Checkouts", customMsg: "Benutzerdefinierte Fehlermeldung", priority: "Prioritäts-Support" },
+      feat: { orders10: "10 Checkouts pro Monat", design: "Alle Design-Optionen", analytics: "Analyse-Dashboard", lockedMsg: "Standard-Fehlermeldung (nicht bearbeitbar)", unlimited: "Unbegrenzte Checkouts", customMsg: "Benutzerdefinierte Fehlermeldung", priority: "Prioritäts-Support", instagram: "Instagram-Feed (Beiträge & Reels automatisch synchronisiert)", layouts: "Galerie als Raster, Slider, Liste & schwebende Blase", media: "Eigene Fotos & Videos hochladen" },
+      devTitle: "Entwicklungsshop — alles kostenlos", devDesc: "Alle Pro-Funktionen, einschließlich des Instagram-Feeds, sind kostenlos, solange du in einem Entwicklungsshop baust oder testest. Kein Abo nötig.", devFree: "Kostenlos für Entwicklungsshops",
+      featureCol: "Funktion", checkoutsRow: "Checkouts pro Monat", unlimitedShort: "Unbegrenzt", termsRow: "AGB-Checkbox",
     },
     support: {
       title: "Support", name: "Ihr Name", email: "E-Mail",
@@ -412,7 +420,7 @@ const TRANSLATIONS = {
   },
 
   fr: {
-    nav: { home: "TermGuard", analytics: "Analytiques", settings: "Paramètres", billing: "Facturation", support: "Support" },
+    nav: { home: "TermGuard", analytics: "Analytiques", settings: "Paramètres", instagram: "Flux Instagram", billing: "Facturation", support: "Support" },
     common: { save: "Enregistrer", saved: "Paramètres enregistrés", dismiss: "Fermer", back: "Accueil", cancel: "Annuler", upgrade: "Passer à Pro — 6,99$/mois", contactSupport: "Contacter le support" },
     dashboard: {
       title: "TermGuard",
@@ -499,7 +507,9 @@ const TRANSLATIONS = {
       upgradeCta: "Passer à Pro", comparison: "Comparaison des plans",
       comparisonDesc: "Le plan gratuit est idéal pour les petites boutiques. Au-delà de 10 paiements par mois, passez à Pro.",
       comparisonDesc2: "Avec le plan Pro, vous pouvez également personnaliser entièrement le message d'erreur.",
-      feat: { orders10: "10 paiements par mois", design: "Toutes les options de design", analytics: "Tableau de bord analytiques", lockedMsg: "Message d'erreur par défaut (non modifiable)", unlimited: "Paiements illimités", customMsg: "Message d'erreur personnalisé", priority: "Support prioritaire" },
+      feat: { orders10: "10 paiements par mois", design: "Toutes les options de design", analytics: "Tableau de bord analytiques", lockedMsg: "Message d'erreur par défaut (non modifiable)", unlimited: "Paiements illimités", customMsg: "Message d'erreur personnalisé", priority: "Support prioritaire", instagram: "Flux Instagram (publications et reels synchronisés)", layouts: "Galerie en grille, carrousel, liste et bulle flottante", media: "Importez vos propres photos et vidéos" },
+      devTitle: "Boutique de développement — tout est gratuit", devDesc: "Toutes les fonctionnalités Pro, y compris le flux Instagram, sont gratuites tant que vous développez ou testez sur une boutique de développement. Aucun abonnement requis.", devFree: "Gratuit pour les boutiques de développement",
+      featureCol: "Fonctionnalité", checkoutsRow: "Paiements par mois", unlimitedShort: "Illimités", termsRow: "Case des conditions générales",
     },
     support: {
       title: "Support", name: "Votre nom", email: "Email",

@@ -106,3 +106,74 @@ model SupportMessage {
   message          String   @db.Text
   createdAt        DateTime @default(now())
 }
+
+// ─── Instagram feed ─────────────────────────────────────────────────────────
+
+model InstagramAccount {
+  id             String    @id @default(cuid())
+  shop           String    @unique
+  igUserId       String
+  username       String
+  accountType    String?
+  accessToken    String    @db.Text
+  tokenExpiresAt DateTime
+  lastSyncedAt   DateTime?
+  lastSyncError  String?   @db.Text
+  connectedAt    DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model InstagramPost {
+  id               String   @id @default(cuid())
+  shop             String
+  igMediaId        String
+  mediaType        String
+  mediaUrl         String   @db.Text
+  thumbnailUrl     String?  @db.Text
+  permalink        String   @db.Text
+  caption          String?  @db.Text
+  carouselChildren String?  @db.Text
+  timestamp        DateTime
+  hidden           Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@unique([shop, igMediaId])
+  @@index([shop, timestamp])
+}
+
+model InstagramCustomMedia {
+  id        String   @id @default(cuid())
+  shop      String
+  mediaType String
+  url       String   @db.Text
+  caption   String?  @db.Text
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([shop, position])
+}
+
+model InstagramFeed {
+  id                   String   @id @default(cuid())
+  shop                 String   @unique
+  postsToShow          String   @default("all")
+  layout               String   @default("grid")
+  title                String?
+  onPostClick          String   @default("popup")
+  postSpacing          String   @default("small")
+  aspectRatio          String   @default("3:4")
+  postFit              String   @default("cover")
+  postShape            String   @default("rectangle")
+  cornerRadius         Int      @default(0)
+  postSize             String   @default("medium")
+  rowsDesktop          Int      @default(2)
+  colsDesktop          Int      @default(4)
+  rowsMobile           Int      @default(2)
+  colsMobile           Int      @default(2)
+  showLoadingAnimation Boolean  @default(false)
+  linkToOriginalPost   Boolean  @default(false)
+  showSliderPreviews   Boolean  @default(false)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}

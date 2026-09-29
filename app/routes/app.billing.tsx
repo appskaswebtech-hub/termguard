@@ -5,47 +5,19 @@ import { redirect, useActionData, useLoaderData, useNavigation, useSubmit } from
 import { authenticate } from "../shopify.server";
 import db from "../db.server";
 import { useT } from "../utils/i18n";
+import { PRO_PLAN_NAME, syncPlan } from "../utils/plan.server";
 
-const PRO_PLAN_NAME = "pro plan";
 const FREE_LIMIT = 10;
-
-async function getActiveSubscription(admin: { graphql: (query: string) => Promise<Response> }) {
-  const res = await admin.graphql(`
-    query {
-      currentAppInstallation {
-        activeSubscriptions {
-          id
-          name
-          status
-          currentPeriodEnd
-          trialDays
-        }
-      }
-    }
-  `);
-  const data = (await res.json()) as {
-    data: { currentAppInstallation: { activeSubscriptions: { id: string; name: string; status: string; currentPeriodEnd: string; trialDays: number }[] } };
-  };
-  const subs = data.data.currentAppInstallation.activeSubscriptions;
-  console.log("[billing] activeSubscriptions:", JSON.stringify(subs));
-  return subs.find((s) => s.name === PRO_PLAN_NAME) ?? null;
-}
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { admin, session } = await authenticate.admin(request);
 
-  const activeSub = await getActiveSubscription(admin);
-  const plan = activeSub ? "pro" : "free";
-
-  await db.settings.update({
-    where: { shop: session.shop },
-    data: { plan, subscriptionId: activeSub?.id ?? null },
-  });
-
+  const { plan, isDevStore, activeSub } = await syncPlan(admin, session.shop);
   const settings = await db.settings.findUnique({ where: { shop: session.shop } });
 
   return {
     plan,
+    isDevStore,
     shop: session.shop,
     monthlyOrderCount: settings?.monthlyOrderCount ?? 0,
     subscriptionEndDate: activeSub?.currentPeriodEnd ?? null,
@@ -70,7 +42,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       }`,
       {
         variables: {
-          name: "pro plan",
+          name: PRO_PLAN_NAME,
           returnUrl,
           trialDays: 7,
           test: false,
@@ -105,8 +77,30 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   return null;
 };
 
+function FeatureItem({ label, included }: { label: string; included: boolean }) {
+  return (
+    <li style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: 13, color: included ? "#374151" : "#9CA3AF" }}>
+      {included ? (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5" strokeLinecap="round" style={{ flexShrink: 0, marginTop: 1 }}><polyline points="20 6 9 17 4 12"/></svg>
+      ) : (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" strokeWidth="2.5" strokeLinecap="round" style={{ flexShrink: 0, marginTop: 1 }}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      )}
+      {label}
+    </li>
+  );
+}
+
+function PlanCell({ value }: { value: string | boolean }) {
+  if (typeof value === "string") return <span style={{ fontWeight: 600, color: "#111827" }}>{value}</span>;
+  return value ? (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+  ) : (
+    <span style={{ color: "#D1D5DB", fontWeight: 600 }}>—</span>
+  );
+}
+
 export default function Billing() {
-  const { plan, shop, monthlyOrderCount, subscriptionEndDate, trialDays } = useLoaderData<typeof loader>();
+  const { plan, isDevStore, shop, monthlyOrderCount, subscriptionEndDate, trialDays } = useLoaderData<typeof loader>();
   const actionData = useActionData<{ confirmationUrl?: string }>();
   const submit = useSubmit();
   const navigation = useNavigation();
@@ -132,6 +126,14 @@ export default function Billing() {
         <div style={{ fontSize: 22, fontWeight: 700, color: "#111827" }}>{t.billing.title}</div>
       </div>
       <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 24 }}>Manage your subscription and plan features</div>
+
+      {/* Development store: everything free */}
+      {isDevStore && (
+        <div style={{ background: "#ECFDF5", border: "1px solid #A7F3D0", borderRadius: 12, padding: "14px 20px", marginBottom: 20 }}>
+          <div style={{ fontSize: 14, fontWeight: 600, color: "#065F46" }}>{t.billing.devTitle}</div>
+          <div style={{ fontSize: 13, color: "#047857", marginTop: 2 }}>{t.billing.devDesc}</div>
+        </div>
+      )}
 
       {/* Over limit banner */}
       {overLimit && (
@@ -164,11 +166,15 @@ export default function Billing() {
           </div>
           <div style={{ height: 1, background: "#F3F4F6", marginBottom: 16 }} />
           <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px", display: "flex", flexDirection: "column", gap: 10 }}>
-            {[t.billing.feat.orders10, t.billing.feat.design, t.billing.feat.analytics, t.billing.feat.lockedMsg].map((f, i) => (
-              <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: 13, color: "#374151" }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={i < 3 ? "#10B981" : "#D1D5DB"} strokeWidth="2.5" strokeLinecap="round" style={{ flexShrink: 0, marginTop: 1 }}><polyline points="20 6 9 17 4 12"/></svg>
-                {f}
-              </li>
+            {[
+              { label: t.billing.feat.orders10, included: true },
+              { label: t.billing.feat.design, included: true },
+              { label: t.billing.feat.analytics, included: true },
+              { label: t.billing.feat.lockedMsg, included: false },
+              { label: t.billing.feat.instagram, included: false },
+              { label: t.billing.feat.media, included: false },
+            ].map((f) => (
+              <FeatureItem key={f.label} label={f.label} included={f.included} />
             ))}
           </ul>
           {!isPro && (
@@ -201,14 +207,22 @@ export default function Billing() {
           </div>
           <div style={{ height: 1, background: "#F3F4F6", marginBottom: 16 }} />
           <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px", display: "flex", flexDirection: "column", gap: 10 }}>
-            {[t.billing.feat.unlimited, t.billing.feat.design, t.billing.feat.analytics, t.billing.feat.customMsg, t.billing.feat.priority].map((f, i) => (
-              <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: 13, color: "#374151" }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5" strokeLinecap="round" style={{ flexShrink: 0, marginTop: 1 }}><polyline points="20 6 9 17 4 12"/></svg>
-                {f}
-              </li>
+            {[
+              t.billing.feat.unlimited,
+              t.billing.feat.design,
+              t.billing.feat.analytics,
+              t.billing.feat.customMsg,
+              t.billing.feat.instagram,
+              t.billing.feat.layouts,
+              t.billing.feat.media,
+              t.billing.feat.priority,
+            ].map((label) => (
+              <FeatureItem key={label} label={label} included />
             ))}
           </ul>
-          {isPro ? (
+          {isDevStore ? (
+            <div style={{ fontSize: 13, fontWeight: 600, color: "#059669" }}>{t.billing.devFree}</div>
+          ) : isPro ? (
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {subscriptionEndDate && (
                 <div style={{ fontSize: 13, color: "#6B7280" }}>
@@ -238,11 +252,37 @@ export default function Billing() {
         </div>
       </div>
 
-      {/* Comparison info */}
+      {/* Plan comparison */}
       <div style={{ background: "#fff", borderRadius: 12, padding: "20px 24px", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-        <div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 8 }}>{t.billing.comparison}</div>
-        <div style={{ fontSize: 13, color: "#6B7280", lineHeight: 1.6 }}>{t.billing.comparisonDesc}</div>
-        <div style={{ fontSize: 13, color: "#6B7280", lineHeight: 1.6, marginTop: 4 }}>{t.billing.comparisonDesc2}</div>
+        <div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 14 }}>{t.billing.comparison}</div>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+          <thead>
+            <tr style={{ textAlign: "left", color: "#6B7280" }}>
+              <th style={{ padding: "8px 0", fontWeight: 600 }}>{t.billing.featureCol}</th>
+              <th style={{ padding: "8px 0", fontWeight: 600, textAlign: "center", width: 110 }}>{t.billing.free}</th>
+              <th style={{ padding: "8px 0", fontWeight: 600, textAlign: "center", width: 110, color: "#2563EB" }}>{t.billing.pro}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {([
+              [t.billing.checkoutsRow, "10", t.billing.unlimitedShort],
+              [t.billing.termsRow, true, true],
+              [t.billing.feat.design, true, true],
+              [t.billing.feat.analytics, true, true],
+              [t.billing.feat.customMsg, false, true],
+              [t.billing.feat.instagram, false, true],
+              [t.billing.feat.layouts, false, true],
+              [t.billing.feat.media, false, true],
+              [t.billing.feat.priority, false, true],
+            ] as [string, string | boolean, string | boolean][]).map(([label, free, pro]) => (
+              <tr key={label} style={{ borderTop: "1px solid #F3F4F6" }}>
+                <td style={{ padding: "10px 0", color: "#374151" }}>{label}</td>
+                <td style={{ padding: "10px 0", textAlign: "center" }}><PlanCell value={free} /></td>
+                <td style={{ padding: "10px 0", textAlign: "center" }}><PlanCell value={pro} /></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

@@ -351,8 +351,29 @@
     startWatching();
   }
 
-  fetch(PROXY_BASE + "/api/settings?shop=" + encodeURIComponent(shop) + "&locale=" + encodeURIComponent(locale))
-    .then(function (response) { return response.ok ? response.json() : null; })
+  // Shopify renames the proxy (e.g. /apps/termguard-1) when another app on the
+  // store already owns /apps/termguard — try each and keep the one that answers.
+  var PROXY_BASES = [PROXY_BASE, PROXY_BASE + "-1", PROXY_BASE + "-2"];
+
+  function loadSettings(i) {
+    if (i >= PROXY_BASES.length) return Promise.resolve(null);
+    var query = "/api/settings?shop=" + encodeURIComponent(shop) + "&locale=" + encodeURIComponent(locale);
+    return fetch(PROXY_BASES[i] + query)
+      .then(function (response) {
+        var isJson = (response.headers.get("content-type") || "").indexOf("application/json") !== -1;
+        return response.ok && isJson ? response.json() : null;
+      })
+      .catch(function () { return null; })
+      .then(function (settings) {
+        if (settings && typeof settings.agreementText === "string") {
+          PROXY_BASE = PROXY_BASES[i]; // analytics posts go to the same app
+          return settings;
+        }
+        return loadSettings(i + 1);
+      });
+  }
+
+  loadSettings(0)
     .then(function (settings) {
       if (!settings) return;
       if (document.readyState === "loading") {

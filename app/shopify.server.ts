@@ -7,6 +7,7 @@ import {
 import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prisma";
 import prisma from "./db.server";
 import { getOrCreateSettings } from "./utils/settings.server";
+import { syncPlan } from "./utils/plan.server";
 
 const shopify = shopifyApp({
   apiKey: process.env.SHOPIFY_API_KEY,
@@ -24,6 +25,8 @@ const shopify = shopifyApp({
     afterAuth: async ({ session, admin }) => {
       await shopify.registerWebhooks({ session });
       await getOrCreateSettings(session.shop, admin);
+      // Development stores get Pro for free — set it at install time.
+      await syncPlan(admin, session.shop).catch((error) => console.error("syncPlan failed after auth:", error));
     },
   },
   ...(process.env.SHOP_CUSTOM_DOMAIN
