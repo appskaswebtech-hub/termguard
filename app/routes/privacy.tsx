@@ -22,7 +22,7 @@ export default function PrivacyPolicy() {
         </div>
 
         <h1 style={{ fontSize: 36, fontWeight: 800, color: "#fff", margin: "0 0 12px" }}>Privacy & Terms</h1>
-        <p style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", margin: "0 0 32px" }}>Last updated: July 2026</p>
+        <p style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", margin: "0 0 32px" }}>Last updated: September 2026</p>
 
         {/* Tabs */}
         <div style={{ display: "inline-flex", background: "rgba(255,255,255,0.15)", borderRadius: 12, padding: 4, gap: 4 }}>
@@ -50,58 +50,73 @@ export default function PrivacyPolicy() {
           {tab === "privacy" ? (
             <>
               <Section title="Overview">
-                InstaGallery ("we", "our", or "us") is a Shopify app developed by KasWebTech Solutions. This Privacy Policy explains how we collect, use, and protect information when you install and use the InstaGallery app on your Shopify store.
+                InstaGallery: Consent Check (&quot;InstaGallery&quot;, &quot;we&quot;, &quot;our&quot; or &quot;us&quot;) is a Shopify app developed by KasWebTech Solutions. The app has two features: a terms and conditions checkbox that shoppers must accept before checkout, and an Instagram and media gallery that displays your Instagram posts and your own photos and videos on your storefront. This Privacy Policy explains what information we collect when you install and use the app, how we use it and how you can have it deleted.
               </Section>
               <Divider />
               <Section title="Information We Collect">
-                <p style={p}>When you install InstaGallery, we collect and store the following:</p>
+                <p style={p}><strong>From your store (all plans):</strong></p>
                 <ul style={ul}>
-                  <li style={li}><strong>Shop domain</strong>: your Shopify store URL (e.g. yourstore.myshopify.com)</li>
-                  <li style={li}><strong>Access token</strong>: a Shopify-issued token to authenticate API requests on your behalf</li>
-                  <li style={li}><strong>App settings</strong>: your checkbox configuration, design preferences, agreement text, and link URLs</li>
-                  <li style={li}><strong>Analytics events</strong>: anonymous checkbox interaction data (checked/unchecked, location, timestamp) with no personally identifiable customer information</li>
-                  <li style={li}><strong>Support messages</strong>: name, email, and message content when you contact us through the app</li>
-                  <li style={li}><strong>Instagram feed (optional)</strong>: if you connect an Instagram Business or Creator account: your Instagram user ID, username, account type, an Instagram access token, and your recent posts' media URLs, captions, permalinks and timestamps. Photos and videos you upload for the feed are stored on our servers.</li>
+                  <li style={li}><strong>Shop details:</strong> your store domain and the access token Shopify issues so the app can work on your behalf.</li>
+                  <li style={li}><strong>Plan information:</strong> your current plan and the ID of your Shopify subscription.</li>
+                  <li style={li}><strong>Support messages:</strong> your name, email address and message if you contact us.</li>
+                </ul>
+                <p style={{ ...p, marginTop: 16 }}><strong>For the terms and conditions checkbox:</strong></p>
+                <ul style={ul}>
+                  <li style={li}><strong>Checkbox settings:</strong> agreement text, policy links, design options, placement and error messages.</li>
+                  <li style={li}><strong>Consent analytics:</strong> anonymous counts of when the checkbox was accepted or when a checkout was blocked, with the page location and time. No names, email addresses, IP addresses or customer IDs are recorded.</li>
+                </ul>
+                <p style={{ ...p, marginTop: 16 }}><strong>For the Instagram and media gallery (only if you use it):</strong></p>
+                <ul style={ul}>
+                  <li style={li}><strong>Instagram account:</strong> if you connect an Instagram Business or Creator account, we store its user ID, username, account type and an access token issued by Instagram.</li>
+                  <li style={li}><strong>Instagram posts:</strong> for your most recent posts and reels we store the media links, thumbnails, captions, post links and publish dates, plus your choices about which posts are shown or hidden.</li>
+                  <li style={li}><strong>Your own media:</strong> photos and videos you upload or add by link, their captions and their order.</li>
+                  <li style={li}><strong>Gallery settings:</strong> layout, design and display preferences.</li>
                 </ul>
               </Section>
               <Divider />
               <Section title="How We Use Your Information">
                 <ul style={ul}>
-                  <li style={li}>To display and operate the terms &amp; conditions checkbox on your storefront</li>
-                  <li style={li}>To provide analytics on customer acceptance rates</li>
-                  <li style={li}>To enforce plan limits (free vs. Pro)</li>
-                  <li style={li}>To respond to support requests</li>
-                  <li style={li}>To improve the app based on usage patterns</li>
+                  <li style={li}>To show the terms and conditions checkbox on your storefront and stop checkout until it is accepted</li>
+                  <li style={li}>To show consent analytics in the app</li>
+                  <li style={li}>To display your Instagram posts and your own media on your storefront, and to keep them up to date by syncing with Instagram every few hours</li>
+                  <li style={li}>To check your plan and give access to the features it includes</li>
+                  <li style={li}>To answer support requests</li>
+                  <li style={li}>To keep the app secure and working correctly</li>
                 </ul>
-                <p style={{ ...p, marginTop: 12 }}>We do <strong>not</strong> sell, rent, or share your data with third parties for marketing purposes.</p>
+                <p style={{ ...p, marginTop: 12 }}>We do <strong>not</strong> sell, rent or share your data with third parties for advertising or marketing.</p>
               </Section>
               <Divider />
-              <Section title="Customer Data">
-                InstaGallery does not collect or store any personally identifiable information (PII) about your store's customers. Analytics events are recorded at the session level without names, emails, or customer IDs.
+              <Section title="Your Customers' Data">
+                <p style={p}>InstaGallery does not collect personal information about your store&apos;s shoppers. Consent analytics are anonymous counts only.</p>
+                <p style={{ ...p, marginTop: 12 }}>The storefront script does not set cookies. It saves one small, non-personal display preference in the shopper&apos;s browser storage so the gallery loads smoothly on repeat visits. Instagram images and videos shown in the gallery are loaded from Instagram&apos;s servers.</p>
               </Section>
               <Divider />
-              <Section title="Data Storage & Security">
-                All data is stored on secure servers managed by KasWebTech Solutions. We use industry-standard practices including encrypted connections (HTTPS) and access controls. Data is retained for as long as the app is installed on your store.
+              <Section title="Data Storage and Security">
+                All data is stored on secure servers managed by KasWebTech Solutions. We use encrypted connections (HTTPS), access controls and signed requests between your store and our servers. Instagram access tokens are used only to read your own profile and posts, and are refreshed automatically before they expire. Data is kept while the app is installed on your store.
               </Section>
               <Divider />
               <Section title="Data Deletion">
-                When you uninstall InstaGallery, you may request full deletion of your store's data by contacting us at <a href="mailto:apps.kaswebtech@gmail.com" style={link}>apps.kaswebtech@gmail.com</a>. We will process deletion requests within 30 days.
+                <ul style={ul}>
+                  <li style={li}><strong>Disconnect Instagram:</strong> clicking &quot;Disconnect&quot; on the Instagram feed page immediately deletes your Instagram access token and all synced posts.</li>
+                  <li style={li}><strong>Uninstall the app:</strong> your Shopify access token, Instagram access token and synced Instagram posts are deleted right away.</li>
+                  <li style={li}><strong>Full deletion:</strong> 48 hours after you uninstall, Shopify asks us to erase your store&apos;s data, and we delete all remaining data automatically, including settings, analytics, uploaded media and support messages.</li>
+                </ul>
                 <p id="instagram-data-deletion" style={{ ...p, marginTop: 12 }}>
-                  <strong>Instagram data:</strong> clicking "Disconnect" on the Instagram feed page immediately deletes your Instagram access token and all synced posts. Uninstalling the app also deletes your Instagram access token and synced posts. All remaining feed data, including uploaded media, is erased automatically 48 hours after uninstalling, or sooner on request by email to the address above with the subject "Data Deletion Request" and your shop domain.
+                  You can also request deletion at any time by emailing <a href="mailto:apps.kaswebtech@gmail.com" style={link}>apps.kaswebtech@gmail.com</a> with the subject &quot;Data Deletion Request&quot; and your shop domain. We complete requests within 30 days and confirm by email.
                 </p>
               </Section>
               <Divider />
               <Section title="Third-Party Services">
-                <p style={p}>InstaGallery uses the following third-party services:</p>
+                <p style={p}>InstaGallery uses the following services:</p>
                 <ul style={ul}>
-                  <li style={li}><strong>Shopify</strong>: for store authentication and app embedding</li>
-                  <li style={li}><strong>Shopify Billing API</strong>: for subscription and payment management</li>
-                  <li style={li}><strong>Instagram API (Meta)</strong>: only if you connect an Instagram account, to read your profile and recent posts for display in your storefront feed</li>
+                  <li style={li}><strong>Shopify:</strong> store authentication, app embedding and the storefront app proxy</li>
+                  <li style={li}><strong>Shopify Billing API:</strong> subscriptions and payments</li>
+                  <li style={li}><strong>Instagram API by Meta:</strong> only if you connect an Instagram account, to read your profile and recent posts</li>
                 </ul>
               </Section>
               <Divider />
               <Section title="Changes to This Policy">
-                We may update this Privacy Policy from time to time. Changes will be reflected on this page with an updated date. Continued use of the app after changes constitutes acceptance of the updated policy.
+                We may update this Privacy Policy from time to time. Changes will appear on this page with a new date. Continuing to use the app after a change means you accept the updated policy.
               </Section>
               <Divider />
               <ContactBox />
@@ -109,56 +124,76 @@ export default function PrivacyPolicy() {
           ) : (
             <>
               <Section title="Acceptance of Terms">
-                By installing or using InstaGallery ("the App"), you agree to be bound by these Terms and Conditions. If you do not agree, please uninstall the App.
+                By installing or using InstaGallery: Consent Check (&quot;the App&quot;), you agree to these Terms and Conditions. If you do not agree, please uninstall the App.
               </Section>
               <Divider />
               <Section title="Description of Service">
-                InstaGallery is a Shopify app that adds a customizable terms and conditions checkbox to your storefront and an optional Instagram and media gallery. It allows merchants to require customer acceptance before checkout, track acceptance analytics, and display their Instagram posts and own photos and videos.
-              </Section>
-              <Divider />
-              <Section title="Billing & Payments">
-                <p style={p}>InstaGallery offers three plans: a Free plan for development stores, a Basic plan at $4.99/month (Instagram feed) and a Pro plan at $6.99/month (terms checkbox and Instagram feed):</p>
+                <p style={p}>The App provides two features for Shopify stores:</p>
                 <ul style={ul}>
-                  <li style={li}>All billing is processed exclusively through the <strong>Shopify Billing API</strong> in compliance with Shopify's Partner Program Agreement</li>
-                  <li style={li}>The Basic and Pro plans include a 7-day free trial</li>
-                  <li style={li}>Subscriptions renew automatically every 30 days</li>
-                  <li style={li}>You may cancel your subscription at any time from within the app</li>
-                  <li style={li}>No refunds are issued for partial billing periods</li>
+                  <li style={li}><strong>Terms and conditions checkbox:</strong> a customizable checkbox on the cart page, cart drawer, product pages or custom buttons that stops checkout, including express checkout, until the shopper accepts your terms. It includes consent analytics.</li>
+                  <li style={li}><strong>Instagram and media gallery:</strong> displays posts and reels from your connected Instagram account and your own uploaded photos and videos on your storefront, with several layouts and a live preview.</li>
                 </ul>
               </Section>
               <Divider />
-              <Section title="Free Plan Limitations">
-                The free plan is available on Shopify development stores only. Live stores need the Basic plan or the Pro plan; the storefront features stay inactive until a plan is active.
+              <Section title="Plans and Billing">
+                <p style={p}>The App offers three plans:</p>
+                <ul style={ul}>
+                  <li style={li}><strong>Free:</strong> all features, available on Shopify development stores only</li>
+                  <li style={li}><strong>Basic, $4.99 per month:</strong> the Instagram and media gallery</li>
+                  <li style={li}><strong>Pro, $6.99 per month:</strong> the terms and conditions checkbox, consent analytics and the Instagram and media gallery</li>
+                </ul>
+                <ul style={{ ...ul, marginTop: 12 }}>
+                  <li style={li}>All charges are processed through the <strong>Shopify Billing API</strong> and appear on your Shopify invoice</li>
+                  <li style={li}>The Basic and Pro plans include a 7-day free trial</li>
+                  <li style={li}>Subscriptions renew automatically every 30 days</li>
+                  <li style={li}>You can switch plans or cancel at any time from the Billing page in the App. A new plan replaces the current one.</li>
+                  <li style={li}>No refunds are given for partial billing periods</li>
+                  <li style={li}>On a live store, the App&apos;s storefront features stay inactive until a paid plan is active</li>
+                </ul>
+              </Section>
+              <Divider />
+              <Section title="Your Responsibilities">
+                <ul style={ul}>
+                  <li style={li}>You are responsible for the content of your own terms and conditions and privacy policy, and for making sure your use of the checkbox meets the laws that apply to your store.</li>
+                  <li style={li}>You must own, or have permission to use, every photo, video and caption you display through the gallery.</li>
+                  <li style={li}>When you connect Instagram, you must follow Instagram&apos;s Terms of Use and Meta&apos;s Platform Terms.</li>
+                  <li style={li}>You are responsible for keeping access to your Shopify and Instagram accounts secure.</li>
+                </ul>
               </Section>
               <Divider />
               <Section title="Acceptable Use">
-                <p style={p}>You agree not to use InstaGallery to:</p>
+                <p style={p}>You agree not to use the App to:</p>
                 <ul style={ul}>
-                  <li style={li}>Deceive or mislead customers about the nature of the terms they are accepting</li>
-                  <li style={li}>Circumvent Shopify's platform policies or checkout functionality</li>
-                  <li style={li}>Collect customer data beyond what is described in our Privacy Policy</li>
-                  <li style={li}>Use the app for any unlawful purpose</li>
+                  <li style={li}>Mislead shoppers about the terms they are accepting</li>
+                  <li style={li}>Display content that is illegal, infringing, offensive or that you do not have the rights to</li>
+                  <li style={li}>Work around Shopify&apos;s or Instagram&apos;s platform policies</li>
+                  <li style={li}>Collect shopper data beyond what is described in our Privacy Policy</li>
+                  <li style={li}>Do anything unlawful</li>
                 </ul>
               </Section>
               <Divider />
+              <Section title="Third-Party Platforms">
+                The Instagram gallery depends on the Instagram API provided by Meta. If Instagram changes or limits its API, removes access or your account becomes unavailable, some gallery features may stop working. Your own uploaded media is not affected. We are not responsible for changes made by Shopify or Meta.
+              </Section>
+              <Divider />
               <Section title="Intellectual Property">
-                All code, design, and content within InstaGallery is owned by KasWebTech Solutions. You may not copy, modify, distribute, or reverse-engineer any part of the app without written permission.
+                All code, design and content of the App belong to KasWebTech Solutions. You may not copy, modify, distribute or reverse engineer any part of the App without written permission. Your content, including your Instagram posts and uploaded media, remains yours.
               </Section>
               <Divider />
               <Section title="Disclaimer of Warranties">
-                InstaGallery is provided "as is" without warranties of any kind. We do not guarantee that the app will be error-free or uninterrupted. We are not responsible for any legal compliance requirements in your jurisdiction regarding terms and conditions acceptance.
+                The App is provided &quot;as is&quot; without warranties of any kind. We do not guarantee that it will be error free or uninterrupted, or that it will work with every theme or third-party app. Using the checkbox does not by itself make your store legally compliant, and we do not give legal advice.
               </Section>
               <Divider />
               <Section title="Limitation of Liability">
-                KasWebTech Solutions shall not be liable for any indirect, incidental, or consequential damages arising from the use or inability to use InstaGallery. Our total liability shall not exceed the amount paid by you in the 3 months prior to the claim.
+                KasWebTech Solutions is not liable for any indirect, incidental or consequential damages arising from the use of, or inability to use, the App. Our total liability will not exceed the amount you paid for the App in the 3 months before the claim.
               </Section>
               <Divider />
               <Section title="Termination">
-                We reserve the right to suspend or terminate access to InstaGallery at any time if you violate these Terms. You may terminate your use of the app at any time by uninstalling it from your Shopify store.
+                We may suspend or end access to the App if you break these Terms. You can stop using the App at any time by uninstalling it from your Shopify store. Your data is then deleted as described in our Privacy Policy.
               </Section>
               <Divider />
               <Section title="Changes to Terms">
-                We may update these Terms from time to time. Changes will be posted on this page with an updated date. Continued use of the app after changes constitutes your acceptance.
+                We may update these Terms from time to time. Changes will appear on this page with a new date. Continuing to use the App after a change means you accept the updated Terms.
               </Section>
               <Divider />
               <ContactBox />
