@@ -23,8 +23,15 @@ export function isInstagramConfigured() {
   return Boolean(process.env.INSTAGRAM_APP_ID && process.env.INSTAGRAM_APP_SECRET);
 }
 
+// Must be byte-for-byte identical in the authorize call, the token exchange and
+// the Meta app's "OAuth redirect URIs" list — so strip trailing slashes/spaces
+// (a "…com/" app URL would otherwise produce "…com//instagram/callback").
+// INSTAGRAM_REDIRECT_URI overrides it when the public URL differs from SHOPIFY_APP_URL.
 function redirectUri() {
-  return `${process.env.SHOPIFY_APP_URL || ""}/instagram/callback`;
+  const explicit = process.env.INSTAGRAM_REDIRECT_URI?.trim();
+  if (explicit) return explicit;
+  const base = (process.env.SHOPIFY_APP_URL || "").trim().replace(/\/+$/, "");
+  return `${base}/instagram/callback`;
 }
 
 // ─── OAuth state ────────────────────────────────────────────────────────────

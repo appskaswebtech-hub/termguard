@@ -43,7 +43,7 @@ export default function App() {
       <PolarisAppProvider i18n={polarisTranslations}>
         <NavMenu>
           <Link to="/app" rel="home">
-            {t.nav.home} - Terms &amp; ...
+            {t.nav.home}
           </Link>
           <Link to="/app/analytics">{t.nav.analytics}</Link>
           <Link to="/app/settings">{t.nav.settings}</Link>

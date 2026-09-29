@@ -5,8 +5,12 @@
   var shop = window.__termguardShop || (window.Shopify && window.Shopify.shop);
   if (!shop) return;
 
-  // Prevent double-init (embed block + script tag both active)
-  if (window.__termguardLoaded) return;
+  // Prevent double-init (embed block + script tag both active). Uses its own flag
+  // so an older copy of this script (e.g. another install of the app) that
+  // loaded first can't stop this one from guarding checkout; setting the old
+  // flag too keeps an older copy that loads *later* from running as well.
+  if (window.__termguardV2Loaded) return;
+  window.__termguardV2Loaded = true;
   window.__termguardLoaded = true;
 
   var locale = (
@@ -89,8 +93,18 @@
     );
   }
 
+  // One acceptance state for the whole page, so ticking the box in the cart
+  // drawer also counts on the cart page (and every widget shows the same state).
+  var accepted = false;
+  var widgetPainters = [];
+
+  function setAccepted(value) {
+    accepted = value;
+    widgetPainters.forEach(function (paint) { paint(); });
+    syncExpressLock();
+  }
+
   function buildWidget(settings, location) {
-    var checked = settings.checksByDefault;
 
     var wrapper = document.createElement("div");
     wrapper.className = "termguard-widget termguard-" + location;
@@ -143,8 +157,6 @@
     visualHolder.style.cursor = "pointer";
     visualHolder.style.pointerEvents = "auto";
     visualHolder.style.zIndex = "10001";
-    visualHolder.innerHTML = checkboxVisualHtml(settings.checkboxStyle, checked, settings.uncheckedColor, settings.checkedColor);
-
     var textSpan = document.createElement("span");
     textSpan.style.color = settings.textColor;
     textSpan.style.fontSize = settings.fontSize + "px";
@@ -169,19 +181,28 @@
     errorSpan.style.display = "none";
     errorSpan.textContent = settings.errorMessage;
 
+    function paint() {
+      visualHolder.innerHTML = checkboxVisualHtml(settings.checkboxStyle, accepted, settings.uncheckedColor, settings.checkedColor);
+      if (accepted) errorSpan.style.display = "none";
+      wrapper.setAttribute("aria-checked", accepted ? "true" : "false");
+    }
+    widgetPainters.push(paint);
+    paint();
+
     function handleRowClick(e) {
       e.stopPropagation();
       var link = e.target.closest && e.target.closest("a");
       if (link) return;
-      checked = !checked;
-      visualHolder.innerHTML = checkboxVisualHtml(settings.checkboxStyle, checked, settings.uncheckedColor, settings.checkedColor);
-      errorSpan.style.display = "none";
-      postAnalytics(location, checked, false);
+      setAccepted(!accepted);
+      postAnalytics(location, accepted, false);
     }
 
     row.addEventListener("click", handleRowClick, false);
-    visualHolder.addEventListener("click", handleRowClick, false);
-    textSpan.addEventListener("click", handleRowClick, false);
+    wrapper.setAttribute("role", "checkbox");
+    wrapper.setAttribute("tabindex", "0");
+    wrapper.addEventListener("keydown", function (e) {
+      if (e.key === " " || e.key === "Enter") { e.preventDefault(); setAccepted(!accepted); postAnalytics(location, accepted, false); }
+    });
 
     wrapper.appendChild(row);
     wrapper.appendChild(helperSpan);
@@ -189,7 +210,7 @@
 
     wrapper.__termguardErrorSpan = errorSpan;
     wrapper.__termguardLocation = location;
-    wrapper.__termguardIsChecked = function () { return checked; };
+    wrapper.__termguardIsChecked = function () { return accepted; };
 
     return wrapper;
   }
@@ -237,82 +258,141 @@
     document.body.appendChild(overlay);
   }
 
-  function guardCheckoutClick(e, settings, location, widget) {
-    if (!settings.requireAcceptance) return;
-    var isChecked = !!(widget && widget.__termguardIsChecked && widget.__termguardIsChecked());
-    if (isChecked) return;
+  // ─── What counts as "going to checkout" ──────────────────────────────────
 
+  var CART_CHECKOUT_SEL =
+    'button[name="checkout"], input[name="checkout"], a[href^="/checkout"], a[href*="/checkouts/"], .cart__checkout-button, #checkout, #CartDrawer-Checkout';
+  var PRODUCT_ADD_SEL =
+    'form[action*="/cart/add"] button[type="submit"], form[action*="/cart/add"] [name="add"]';
+  var CUSTOM_SEL = '[data-termguard-target="custom"]';
+  // Express / accelerated checkout (Shop Pay, Apple Pay, Google Pay, PayPal …).
+  var EXPRESS_SEL =
+    "shopify-accelerated-checkout, shopify-accelerated-checkout-cart, .shopify-payment-button, .additional-checkout-buttons, #dynamic-checkout-cart, [data-shopify='payment-button'], [data-shopify='dynamic-checkout-cart']";
+  var EXPRESS_WRAP_ATTR = "data-termguard-express";
+
+  function inProductForm(el) {
+    return !!(el.closest && el.closest('form[action*="/cart/add"], product-form, .product-form'));
+  }
+
+  // Which analytics location an element belongs to, or null if it isn't guarded.
+  function guardLocation(el) {
+    var s = currentSettings;
+    if (!s) return null;
+    if (el.matches(CUSTOM_SEL)) return s.locationCustom ? "custom" : null;
+    var product = el.matches(PRODUCT_ADD_SEL) || (el.hasAttribute(EXPRESS_WRAP_ATTR) && inProductForm(el));
+    if (product) return s.locationProduct ? "product" : s.locationAllCheckout ? "checkout" : null;
+    return s.locationCart ? "cart" : s.locationAllCheckout ? "checkout" : null;
+  }
+
+  function mustBlock() {
+    var s = currentSettings;
+    return !!(s && s.requireAcceptance && !s.overLimit && !accepted);
+  }
+
+  function showError(location, anchorEl) {
+    var s = currentSettings;
+    if (s.errorDisplayType === "popup") {
+      showPopupError(s);
+      return;
+    }
+    // Inline: reveal the error on the widget next to the button (or every widget).
+    var container = anchorEl && (anchorEl.closest("form") || anchorEl.parentElement);
+    var near = container && container.querySelector(".termguard-widget");
+    var targets = near ? [near] : Array.prototype.slice.call(document.querySelectorAll(".termguard-widget"));
+    targets.forEach(function (w) { if (w.__termguardErrorSpan) w.__termguardErrorSpan.style.display = "inline"; });
+    if (targets[0] && targets[0].scrollIntoView) targets[0].scrollIntoView({ block: "center", behavior: "smooth" });
+    if (!targets.length) showPopupError(s); // no widget visible — still tell the shopper why
+  }
+
+  function block(e, location, anchorEl) {
     e.preventDefault();
     e.stopPropagation();
-
-    if (settings.errorDisplayType === "popup") {
-      showPopupError(settings);
-    } else if (widget && widget.__termguardErrorSpan) {
-      widget.__termguardErrorSpan.style.display = "inline";
-    }
-
+    if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    showError(location, anchorEl);
     postAnalytics(location, false, true);
   }
 
-  function findCartCheckoutButtons() {
-    return Array.prototype.slice.call(
-      document.querySelectorAll(
-        'button[name="checkout"], input[name="checkout"], a[href^="/checkout"], .cart__checkout-button, #checkout',
-      ),
-    );
+  // Capture phase runs before the theme's own handlers (cart drawers, AJAX
+  // checkout buttons), so the theme never gets a chance to navigate away.
+  function onClickCapture(e) {
+    if (!mustBlock() || !e.target || !e.target.closest) return;
+    if (e.target.closest(".termguard-widget, #termguard-popup-overlay")) return;
+    var el = e.target.closest(CART_CHECKOUT_SEL + ", " + PRODUCT_ADD_SEL + ", " + CUSTOM_SEL + ", [" + EXPRESS_WRAP_ATTR + "]");
+    if (!el) return;
+    var location = guardLocation(el);
+    if (location) block(e, location, el);
   }
 
-  function findProductButtons() {
-    return Array.prototype.slice.call(
-      document.querySelectorAll(
-        'form[action^="/cart/add"] button[type="submit"], form[action^="/cart/add"] [name="add"]',
-      ),
-    );
+  // Catches keyboard submits (Enter in the cart form) and programmatic submits.
+  function onSubmitCapture(e) {
+    if (!mustBlock()) return;
+    var form = e.target;
+    var action = (form.getAttribute && form.getAttribute("action")) || "";
+    var submitter = e.submitter;
+    var toCheckout = (submitter && submitter.name === "checkout") || /\/checkout/.test(action);
+    var toCart = /\/cart\/add/.test(action);
+    if (!toCheckout && !toCart) return;
+    var location = guardLocation(submitter && submitter.matches ? submitter : form.querySelector(toCheckout ? CART_CHECKOUT_SEL : PRODUCT_ADD_SEL) || form);
+    if (location) block(e, location, submitter || form);
   }
 
-  function findCustomButtons() {
-    return Array.prototype.slice.call(document.querySelectorAll('[data-termguard-target="custom"]'));
+  // Express buttons render inside iframes / shadow DOM, where clicks can't be
+  // intercepted — so they're made unclickable until the terms are accepted,
+  // and a click on their wrapper explains why.
+  function syncExpressLock() {
+    document.documentElement.classList.toggle("termguard-locked", mustBlock());
   }
 
-  var BOUND_ATTR = "data-termguard-bound";
+  function injectLockStyles() {
+    if (document.getElementById("termguard-lock-styles")) return;
+    var style = document.createElement("style");
+    style.id = "termguard-lock-styles";
+    style.textContent =
+      // Buttons keep their normal look; clicks just land on the wrapper (which shows the terms error).
+      ".termguard-locked [" + EXPRESS_WRAP_ATTR + "] > * { pointer-events: none !important; }" +
+      ".termguard-locked [" + EXPRESS_WRAP_ATTR + "] { cursor: pointer; }" +
+      ".termguard-widget[role=checkbox]:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }";
+    document.head.appendChild(style);
+  }
 
-  function bindButtons(settings, location, buttons) {
+  // ─── Widget placement ────────────────────────────────────────────────────
+
+  function findAll(selector) {
+    return Array.prototype.slice.call(document.querySelectorAll(selector));
+  }
+
+  function placeWidgets(settings, location, buttons) {
     buttons.forEach(function (btn) {
       var container = btn.closest("form") || btn.parentElement;
-      var widget = null;
-      var alreadyBound = btn.hasAttribute(BOUND_ATTR);
+      if (!container || container.querySelector(":scope > .termguard-widget")) return;
+      // Insert before the container's child that holds the button, so the checkbox
+      // sits above the button's row instead of being squeezed into it.
+      var anchor = btn;
+      while (anchor.parentElement && anchor.parentElement !== container) anchor = anchor.parentElement;
+      if (anchor.parentElement === container) container.insertBefore(buildWidget(settings, location), anchor);
+    });
+  }
 
-      if (container) {
-        widget = container.querySelector(":scope > .termguard-widget");
-        if (!widget) {
-          widget = buildWidget(settings, location);
-          container.insertBefore(widget, btn);
-        }
-      } else {
-        widget = buildWidget(settings, location);
-      }
-
-      if (!alreadyBound) {
-        btn.setAttribute(BOUND_ATTR, "true");
-        btn.addEventListener("click", function (e) {
-          var currentContainer = btn.closest("form") || btn.parentElement;
-          var currentWidget = currentContainer ? currentContainer.querySelector(":scope > .termguard-widget") : null;
-          guardCheckoutClick(e, settings, location, currentWidget);
-        }, false);
-      }
+  function markExpressButtons() {
+    findAll(EXPRESS_SEL).forEach(function (node) {
+      // Mark the outermost express container once; its children get locked by CSS.
+      if (node.parentElement && node.parentElement.closest("[" + EXPRESS_WRAP_ATTR + "]")) return;
+      var wrap = node.parentElement || node;
+      if (!wrap.hasAttribute(EXPRESS_WRAP_ATTR)) wrap.setAttribute(EXPRESS_WRAP_ATTR, "");
     });
   }
 
   function scanAndBind() {
     if (!currentSettings) return;
     var settings = currentSettings;
-    if (settings.locationCart) bindButtons(settings, "cart", findCartCheckoutButtons());
-    if (settings.locationProduct) bindButtons(settings, "product", findProductButtons());
-    if (settings.locationCollection) bindButtons(settings, "collection", []);
-    if (settings.locationAllCheckout) {
-      bindButtons(settings, "checkout", findCartCheckoutButtons().concat(findProductButtons()));
+    if (settings.locationCart || settings.locationAllCheckout) {
+      placeWidgets(settings, settings.locationCart ? "cart" : "checkout", findAll(CART_CHECKOUT_SEL));
     }
-    if (settings.locationCustom) bindButtons(settings, "custom", findCustomButtons());
+    if (settings.locationProduct || settings.locationAllCheckout) {
+      placeWidgets(settings, settings.locationProduct ? "product" : "checkout", findAll(PRODUCT_ADD_SEL));
+    }
+    if (settings.locationCustom) placeWidgets(settings, "custom", findAll(CUSTOM_SEL));
+    markExpressButtons();
   }
 
   function applyCustomCss(css) {
@@ -344,10 +424,15 @@
 
   function init(settings) {
     currentSettings = settings;
+    accepted = !!settings.checksByDefault;
     window.TermGuard = window.TermGuard || {};
     window.TermGuard.settings = settings;
     applyCustomCss(settings.customCss);
     applyCustomScript(settings.customScript);
+    injectLockStyles();
+    document.addEventListener("click", onClickCapture, true);
+    document.addEventListener("submit", onSubmitCapture, true);
+    syncExpressLock();
     startWatching();
   }
 

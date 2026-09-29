@@ -18,7 +18,7 @@ export default function PrivacyPolicy() {
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             </svg>
           </div>
-          <span style={{ fontSize: 24, fontWeight: 800, color: "#fff" }}>TermGuard</span>
+          <span style={{ fontSize: 24, fontWeight: 800, color: "#fff" }}>InstaGallery</span>
         </div>
 
         <h1 style={{ fontSize: 36, fontWeight: 800, color: "#fff", margin: "0 0 12px" }}>Privacy & Terms</h1>
@@ -50,11 +50,11 @@ export default function PrivacyPolicy() {
           {tab === "privacy" ? (
             <>
               <Section title="Overview">
-                TermGuard ("we", "our", or "us") is a Shopify app developed by KasWebTech Solutions. This Privacy Policy explains how we collect, use, and protect information when you install and use the TermGuard app on your Shopify store.
+                InstaGallery ("we", "our", or "us") is a Shopify app developed by KasWebTech Solutions. This Privacy Policy explains how we collect, use, and protect information when you install and use the InstaGallery app on your Shopify store.
               </Section>
               <Divider />
               <Section title="Information We Collect">
-                <p style={p}>When you install TermGuard, we collect and store the following:</p>
+                <p style={p}>When you install InstaGallery, we collect and store the following:</p>
                 <ul style={ul}>
                   <li style={li}><strong>Shop domain</strong> — your Shopify store URL (e.g. yourstore.myshopify.com)</li>
                   <li style={li}><strong>Access token</strong> — a Shopify-issued token to authenticate API requests on your behalf</li>
@@ -78,7 +78,7 @@ export default function PrivacyPolicy() {
               </Section>
               <Divider />
               <Section title="Customer Data">
-                TermGuard does not collect or store any personally identifiable information (PII) about your store's customers. Analytics events are recorded at the session level without names, emails, or customer IDs.
+                InstaGallery does not collect or store any personally identifiable information (PII) about your store's customers. Analytics events are recorded at the session level without names, emails, or customer IDs.
               </Section>
               <Divider />
               <Section title="Data Storage & Security">
@@ -86,14 +86,14 @@ export default function PrivacyPolicy() {
               </Section>
               <Divider />
               <Section title="Data Deletion">
-                When you uninstall TermGuard, you may request full deletion of your store's data by contacting us at <a href="mailto:apps.kaswebtech@gmail.com" style={link}>apps.kaswebtech@gmail.com</a>. We will process deletion requests within 30 days.
+                When you uninstall InstaGallery, you may request full deletion of your store's data by contacting us at <a href="mailto:apps.kaswebtech@gmail.com" style={link}>apps.kaswebtech@gmail.com</a>. We will process deletion requests within 30 days.
                 <p id="instagram-data-deletion" style={{ ...p, marginTop: 12 }}>
                   <strong>Instagram data:</strong> clicking "Disconnect" on the Instagram feed page immediately deletes your Instagram access token and all synced posts. Uninstalling the app also deletes your Instagram access token and synced posts. All remaining feed data, including uploaded media, is erased automatically 48 hours after uninstalling, or sooner on request by email to the address above with the subject "Data Deletion Request" and your shop domain.
                 </p>
               </Section>
               <Divider />
               <Section title="Third-Party Services">
-                <p style={p}>TermGuard uses the following third-party services:</p>
+                <p style={p}>InstaGallery uses the following third-party services:</p>
                 <ul style={ul}>
                   <li style={li}><strong>Shopify</strong> — for store authentication and app embedding</li>
                   <li style={li}><strong>Shopify Billing API</strong> — for subscription and payment management</li>
@@ -110,15 +110,15 @@ export default function PrivacyPolicy() {
           ) : (
             <>
               <Section title="Acceptance of Terms">
-                By installing or using TermGuard ("the App"), you agree to be bound by these Terms and Conditions. If you do not agree, please uninstall the App.
+                By installing or using InstaGallery ("the App"), you agree to be bound by these Terms and Conditions. If you do not agree, please uninstall the App.
               </Section>
               <Divider />
               <Section title="Description of Service">
-                TermGuard is a Shopify app that adds a customizable terms and conditions checkbox to your storefront. It allows merchants to require customer acceptance before checkout and track acceptance analytics.
+                InstaGallery is a Shopify app that adds a customizable terms and conditions checkbox to your storefront and an optional Instagram and media gallery. It allows merchants to require customer acceptance before checkout, track acceptance analytics, and display their Instagram posts and own photos and videos.
               </Section>
               <Divider />
               <Section title="Billing & Payments">
-                <p style={p}>TermGuard offers a free plan and a Pro plan at $6.99/month:</p>
+                <p style={p}>InstaGallery offers a free plan and a Pro plan at $6.99/month:</p>
                 <ul style={ul}>
                   <li style={li}>All billing is processed exclusively through the <strong>Shopify Billing API</strong> in compliance with Shopify's Partner Program Agreement</li>
                   <li style={li}>The Pro plan includes a 7-day free trial</li>
@@ -133,7 +133,7 @@ export default function PrivacyPolicy() {
               </Section>
               <Divider />
               <Section title="Acceptable Use">
-                <p style={p}>You agree not to use TermGuard to:</p>
+                <p style={p}>You agree not to use InstaGallery to:</p>
                 <ul style={ul}>
                   <li style={li}>Deceive or mislead customers about the nature of the terms they are accepting</li>
                   <li style={li}>Circumvent Shopify's platform policies or checkout functionality</li>
@@ -143,19 +143,19 @@ export default function PrivacyPolicy() {
               </Section>
               <Divider />
               <Section title="Intellectual Property">
-                All code, design, and content within TermGuard is owned by KasWebTech Solutions. You may not copy, modify, distribute, or reverse-engineer any part of the app without written permission.
+                All code, design, and content within InstaGallery is owned by KasWebTech Solutions. You may not copy, modify, distribute, or reverse-engineer any part of the app without written permission.
               </Section>
               <Divider />
               <Section title="Disclaimer of Warranties">
-                TermGuard is provided "as is" without warranties of any kind. We do not guarantee that the app will be error-free or uninterrupted. We are not responsible for any legal compliance requirements in your jurisdiction regarding terms and conditions acceptance.
+                InstaGallery is provided "as is" without warranties of any kind. We do not guarantee that the app will be error-free or uninterrupted. We are not responsible for any legal compliance requirements in your jurisdiction regarding terms and conditions acceptance.
               </Section>
               <Divider />
               <Section title="Limitation of Liability">
-                KasWebTech Solutions shall not be liable for any indirect, incidental, or consequential damages arising from the use or inability to use TermGuard. Our total liability shall not exceed the amount paid by you in the 3 months prior to the claim.
+                KasWebTech Solutions shall not be liable for any indirect, incidental, or consequential damages arising from the use or inability to use InstaGallery. Our total liability shall not exceed the amount paid by you in the 3 months prior to the claim.
               </Section>
               <Divider />
               <Section title="Termination">
-                We reserve the right to suspend or terminate access to TermGuard at any time if you violate these Terms. You may terminate your use of the app at any time by uninstalling it from your Shopify store.
+                We reserve the right to suspend or terminate access to InstaGallery at any time if you violate these Terms. You may terminate your use of the app at any time by uninstalling it from your Shopify store.
               </Section>
               <Divider />
               <Section title="Changes to Terms">
@@ -196,7 +196,7 @@ function ContactBox() {
       <div style={{ background: "#F3F4F6", borderRadius: 10, padding: "16px 20px", fontSize: 14, color: "#374151", lineHeight: 1.8, marginTop: 12 }}>
         <strong>KasWebTech Solutions</strong><br />
         Email: <a href="mailto:apps.kaswebtech@gmail.com" style={link}>apps.kaswebtech@gmail.com</a><br />
-        App: TermGuard — Terms &amp; Conditions
+        App: InstaGallery: Consent Check
       </div>
     </Section>
   );

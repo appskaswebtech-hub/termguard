@@ -125,7 +125,7 @@ export default function Index() {
           <div style={{ fontSize: 24, fontWeight: 800, background: "linear-gradient(135deg,#3B82F6,#6366F1)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", lineHeight: 1.15 }}>
             {t.dashboard.title}
           </div>
-          <div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 500, marginTop: 1 }}>Terms &amp; Conditions Manager</div>
+          <div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 500, marginTop: 1 }}>Consent Check &amp; Instagram Gallery</div>
         </div>
       </div>
 

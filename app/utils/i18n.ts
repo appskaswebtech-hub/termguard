@@ -4,13 +4,13 @@ type AppLoaderData = { language?: string };
 
 const TRANSLATIONS = {
   en: {
-    nav: { home: "TermGuard", analytics: "Analytics", settings: "Settings", instagram: "Instagram feed", billing: "Billing", support: "Support" },
+    nav: { home: "InstaGallery", analytics: "Analytics", settings: "Settings", instagram: "Instagram feed", billing: "Billing", support: "Support" },
     common: { save: "Save", saved: "Settings saved", dismiss: "Dismiss", back: "Home", cancel: "Cancel", upgrade: "Upgrade to Pro — $6.99/month", contactSupport: "Contact Support" },
     dashboard: {
-      title: "TermGuard",
-      setupTitle: "How to set up TermGuard",
+      title: "InstaGallery",
+      setupTitle: "How to set up InstaGallery",
       step1Title: "Step 1 — Enable the app embed",
-      step1Desc: 'In your Shopify admin, go to Online Store → Themes → Customize → App Embeds. Find "TermGuard" and toggle it on, then click Save.',
+      step1Desc: 'In your Shopify admin, go to Online Store → Themes → Customize → App Embeds. Find "InstaGallery" and toggle it on, then click Save.',
       step2Title: "Step 2 — Customize the checkbox",
       step2Desc: "Go to the Settings page in this app to configure the agreement text, links, design, and which pages to show the checkbox on.",
       step3Title: "Step 3 — Preview your store",
@@ -22,10 +22,10 @@ const TRANSLATIONS = {
       overLimitTitle: "Free plan limit reached", overLimitDesc: "The consent checkbox is still visible on your store but cannot be checked. Upgrade to Pro for unlimited checkouts.",
       faqTitle: "Frequently Asked Questions",
       faq: [
-        { q: "How do I customize TermGuard?", a: "Easy! Just head to your TermGuard dashboard and find the 'Settings' button. Once you've clicked that, our editor will lead you from there." },
-        { q: "Does TermGuard work with any Shopify themes?", a: "It sure does! TermGuard is built to work seamlessly with all Shopify themes, including custom and third-party themes." },
-        { q: "How will TermGuard affect my page speed?", a: "When you install TermGuard, we add a script to your store. Shopify is very careful to not allow script tags added by apps to affect page load times, and ensures that your store is fully functional before allowing any extra code to run." },
-        { q: "What should I do if TermGuard doesn't work as expected?", a: "You can contact our support team by clicking Visit support center above or emailing apps.kaswebtech@gmail.com. Our team will be happy to assist you with the setup if the app doesn't work as expected." },
+        { q: "How do I customize InstaGallery?", a: "Easy! Just head to your InstaGallery dashboard and find the 'Settings' button. Once you've clicked that, our editor will lead you from there." },
+        { q: "Does InstaGallery work with any Shopify themes?", a: "It sure does! InstaGallery is built to work seamlessly with all Shopify themes, including custom and third-party themes." },
+        { q: "How will InstaGallery affect my page speed?", a: "When you install InstaGallery, we add a script to your store. Shopify is very careful to not allow script tags added by apps to affect page load times, and ensures that your store is fully functional before allowing any extra code to run." },
+        { q: "What should I do if InstaGallery doesn't work as expected?", a: "You can contact our support team by clicking Visit support center above or emailing apps.kaswebtech@gmail.com. Our team will be happy to assist you with the setup if the app doesn't work as expected." },
       ],
     },
     analytics: {
@@ -89,7 +89,7 @@ const TRANSLATIONS = {
       overLimitTitle: "You've reached your free plan limit",
       overLimitDesc: "Your store has used all 10 free checkouts this month. Upgrade to Pro to keep the checkbox active for all customers.",
       upgradeCta: "Upgrade to Pro", comparison: "Plan comparison",
-      comparisonDesc: "The free plan is great for small stores. Once you exceed 10 checkouts per month, upgrade to Pro to keep the consent checkbox active and allow unlimited checkouts through TermGuard.",
+      comparisonDesc: "The free plan is great for small stores. Once you exceed 10 checkouts per month, upgrade to Pro to keep the consent checkbox active and allow unlimited checkouts through InstaGallery.",
       comparisonDesc2: "On the Pro plan, you also unlock the ability to fully customize the error message shown when customers try to checkout without accepting the terms.",
       feat: { orders10: "10 checkouts per month", design: "All design options", analytics: "Analytics dashboard", lockedMsg: "Default error message (not editable)", unlimited: "Unlimited checkouts", customMsg: "Custom error message", priority: "Priority support", instagram: "Instagram feed (auto-sync posts & reels)", layouts: "Grid, slider, list & floating gallery layouts", media: "Upload your own photos & videos" },
       devTitle: "Development store — everything is free", devDesc: "All Pro features, including the Instagram feed, are free while you build or test on a development store. No subscription needed.", devFree: "Free on development stores",
@@ -108,13 +108,13 @@ const TRANSLATIONS = {
   },
 
   es: {
-    nav: { home: "TermGuard", analytics: "Analíticas", settings: "Configuración", instagram: "Feed de Instagram", billing: "Facturación", support: "Soporte" },
+    nav: { home: "InstaGallery", analytics: "Analíticas", settings: "Configuración", instagram: "Feed de Instagram", billing: "Facturación", support: "Soporte" },
     common: { save: "Guardar", saved: "Configuración guardada", dismiss: "Descartar", back: "Inicio", cancel: "Cancelar", upgrade: "Actualizar a Pro — $6.99/mes", contactSupport: "Contactar soporte" },
     dashboard: {
-      title: "TermGuard",
-      setupTitle: "Cómo configurar TermGuard",
+      title: "InstaGallery",
+      setupTitle: "Cómo configurar InstaGallery",
       step1Title: "Paso 1 — Activar el bloque de inserción",
-      step1Desc: 'En tu panel de Shopify, ve a Tienda en línea → Temas → Personalizar → Inserciones de apps. Encuentra "TermGuard" y actívalo, luego haz clic en Guardar.',
+      step1Desc: 'En tu panel de Shopify, ve a Tienda en línea → Temas → Personalizar → Inserciones de apps. Encuentra "InstaGallery" y actívalo, luego haz clic en Guardar.',
       step2Title: "Paso 2 — Personalizar el checkbox",
       step2Desc: "Ve a la página de Configuración para ajustar el texto de acuerdo, enlaces, diseño y en qué páginas mostrar el checkbox.",
       step3Title: "Paso 3 — Vista previa de tu tienda",
@@ -126,10 +126,10 @@ const TRANSLATIONS = {
       overLimitTitle: "Límite del plan gratuito alcanzado", overLimitDesc: "El checkbox de consentimiento sigue visible en tu tienda pero no se puede marcar. Actualiza a Pro para pagos ilimitados.",
       faqTitle: "Preguntas Frecuentes",
       faq: [
-        { q: "¿Cómo personalizo TermGuard?", a: "¡Fácil! Ve a tu panel de TermGuard y haz clic en 'Configuración'. Nuestro editor te guiará desde ahí." },
-        { q: "¿TermGuard funciona con cualquier tema de Shopify?", a: "¡Por supuesto! TermGuard está diseñado para funcionar con todos los temas de Shopify, incluidos los personalizados y de terceros." },
-        { q: "¿Cómo afectará TermGuard a la velocidad de mi página?", a: "Cuando instalas TermGuard, añadimos un script a tu tienda. Shopify se asegura de que no afecte los tiempos de carga." },
-        { q: "¿Qué hago si TermGuard no funciona como se espera?", a: "Puedes contactar a nuestro equipo de soporte haciendo clic en 'Visitar centro de soporte' o enviando un correo a apps.kaswebtech@gmail.com." },
+        { q: "¿Cómo personalizo InstaGallery?", a: "¡Fácil! Ve a tu panel de InstaGallery y haz clic en 'Configuración'. Nuestro editor te guiará desde ahí." },
+        { q: "¿InstaGallery funciona con cualquier tema de Shopify?", a: "¡Por supuesto! InstaGallery está diseñado para funcionar con todos los temas de Shopify, incluidos los personalizados y de terceros." },
+        { q: "¿Cómo afectará InstaGallery a la velocidad de mi página?", a: "Cuando instalas InstaGallery, añadimos un script a tu tienda. Shopify se asegura de que no afecte los tiempos de carga." },
+        { q: "¿Qué hago si InstaGallery no funciona como se espera?", a: "Puedes contactar a nuestro equipo de soporte haciendo clic en 'Visitar centro de soporte' o enviando un correo a apps.kaswebtech@gmail.com." },
       ],
     },
     analytics: {
@@ -212,13 +212,13 @@ const TRANSLATIONS = {
   },
 
   it: {
-    nav: { home: "TermGuard", analytics: "Analitiche", settings: "Impostazioni", instagram: "Feed Instagram", billing: "Fatturazione", support: "Supporto" },
+    nav: { home: "InstaGallery", analytics: "Analitiche", settings: "Impostazioni", instagram: "Feed Instagram", billing: "Fatturazione", support: "Supporto" },
     common: { save: "Salva", saved: "Impostazioni salvate", dismiss: "Chiudi", back: "Home", cancel: "Annulla", upgrade: "Passa a Pro — $6.99/mese", contactSupport: "Contatta il supporto" },
     dashboard: {
-      title: "TermGuard",
-      setupTitle: "Come configurare TermGuard",
+      title: "InstaGallery",
+      setupTitle: "Come configurare InstaGallery",
       step1Title: "Passo 1 — Attiva il blocco di incorporamento",
-      step1Desc: 'Nel pannello Shopify, vai su Negozio online → Temi → Personalizza → Incorporamenti app. Trova "TermGuard" e attivalo, poi clicca Salva.',
+      step1Desc: 'Nel pannello Shopify, vai su Negozio online → Temi → Personalizza → Incorporamenti app. Trova "InstaGallery" e attivalo, poi clicca Salva.',
       step2Title: "Passo 2 — Personalizza il checkbox",
       step2Desc: "Vai alla pagina Impostazioni per configurare il testo dell'accordo, i link, il design e le pagine in cui mostrare il checkbox.",
       step3Title: "Passo 3 — Anteprima del tuo negozio",
@@ -230,10 +230,10 @@ const TRANSLATIONS = {
       overLimitTitle: "Limite del piano gratuito raggiunto", overLimitDesc: "Il checkbox di consenso è ancora visibile ma non può essere selezionato. Passa a Pro per checkout illimitati.",
       faqTitle: "Domande Frequenti",
       faq: [
-        { q: "Come personalizzo TermGuard?", a: "Semplice! Vai al tuo pannello TermGuard e clicca su 'Impostazioni'. Il nostro editor ti guiderà da lì." },
-        { q: "TermGuard funziona con qualsiasi tema Shopify?", a: "Certo! TermGuard è progettato per funzionare con tutti i temi Shopify, inclusi quelli personalizzati e di terze parti." },
-        { q: "Come influenzerà TermGuard la velocità della mia pagina?", a: "Quando installi TermGuard, aggiungiamo uno script al tuo negozio. Shopify si assicura che non influisca sui tempi di caricamento." },
-        { q: "Cosa faccio se TermGuard non funziona come previsto?", a: "Puoi contattare il nostro team di supporto cliccando 'Visita il centro di supporto' o inviando un'email a apps.kaswebtech@gmail.com." },
+        { q: "Come personalizzo InstaGallery?", a: "Semplice! Vai al tuo pannello InstaGallery e clicca su 'Impostazioni'. Il nostro editor ti guiderà da lì." },
+        { q: "InstaGallery funziona con qualsiasi tema Shopify?", a: "Certo! InstaGallery è progettato per funzionare con tutti i temi Shopify, inclusi quelli personalizzati e di terze parti." },
+        { q: "Come influenzerà InstaGallery la velocità della mia pagina?", a: "Quando installi InstaGallery, aggiungiamo uno script al tuo negozio. Shopify si assicura che non influisca sui tempi di caricamento." },
+        { q: "Cosa faccio se InstaGallery non funziona come previsto?", a: "Puoi contattare il nostro team di supporto cliccando 'Visita il centro di supporto' o inviando un'email a apps.kaswebtech@gmail.com." },
       ],
     },
     analytics: {
@@ -316,13 +316,13 @@ const TRANSLATIONS = {
   },
 
   de: {
-    nav: { home: "TermGuard", analytics: "Analysen", settings: "Einstellungen", instagram: "Instagram-Feed", billing: "Abrechnung", support: "Support" },
+    nav: { home: "InstaGallery", analytics: "Analysen", settings: "Einstellungen", instagram: "Instagram-Feed", billing: "Abrechnung", support: "Support" },
     common: { save: "Speichern", saved: "Einstellungen gespeichert", dismiss: "Schließen", back: "Startseite", cancel: "Abbrechen", upgrade: "Auf Pro upgraden — $6.99/Monat", contactSupport: "Support kontaktieren" },
     dashboard: {
-      title: "TermGuard",
-      setupTitle: "So richten Sie TermGuard ein",
+      title: "InstaGallery",
+      setupTitle: "So richten Sie InstaGallery ein",
       step1Title: "Schritt 1 — App-Einbettung aktivieren",
-      step1Desc: 'Gehen Sie im Shopify-Admin zu Online-Shop → Themes → Anpassen → App-Einbettungen. Finden Sie "TermGuard" und aktivieren Sie es, dann klicken Sie auf Speichern.',
+      step1Desc: 'Gehen Sie im Shopify-Admin zu Online-Shop → Themes → Anpassen → App-Einbettungen. Finden Sie "InstaGallery" und aktivieren Sie es, dann klicken Sie auf Speichern.',
       step2Title: "Schritt 2 — Checkbox anpassen",
       step2Desc: "Gehen Sie zur Einstellungsseite, um Vereinbarungstext, Links, Design und Seitenplatzierung der Checkbox zu konfigurieren.",
       step3Title: "Schritt 3 — Shop-Vorschau",
@@ -334,10 +334,10 @@ const TRANSLATIONS = {
       overLimitTitle: "Kostenloses Plan-Limit erreicht", overLimitDesc: "Die Einwilligung-Checkbox ist noch sichtbar, kann aber nicht aktiviert werden. Upgraden Sie auf Pro für unbegrenzte Checkouts.",
       faqTitle: "Häufig gestellte Fragen",
       faq: [
-        { q: "Wie passe ich TermGuard an?", a: "Ganz einfach! Gehen Sie zu Ihrem TermGuard-Dashboard und klicken Sie auf 'Einstellungen'. Unser Editor führt Sie von dort aus." },
-        { q: "Funktioniert TermGuard mit jedem Shopify-Theme?", a: "Ja! TermGuard ist für die nahtlose Zusammenarbeit mit allen Shopify-Themes entwickelt, einschließlich benutzerdefinierter und Drittanbieter-Themes." },
-        { q: "Wie beeinflusst TermGuard meine Seitengeschwindigkeit?", a: "Wenn Sie TermGuard installieren, fügen wir Ihrem Shop ein Skript hinzu. Shopify stellt sicher, dass dies die Ladezeiten nicht beeinträchtigt." },
-        { q: "Was soll ich tun, wenn TermGuard nicht wie erwartet funktioniert?", a: "Sie können unser Support-Team kontaktieren, indem Sie oben auf 'Support-Center besuchen' klicken oder eine E-Mail an apps.kaswebtech@gmail.com senden." },
+        { q: "Wie passe ich InstaGallery an?", a: "Ganz einfach! Gehen Sie zu Ihrem InstaGallery-Dashboard und klicken Sie auf 'Einstellungen'. Unser Editor führt Sie von dort aus." },
+        { q: "Funktioniert InstaGallery mit jedem Shopify-Theme?", a: "Ja! InstaGallery ist für die nahtlose Zusammenarbeit mit allen Shopify-Themes entwickelt, einschließlich benutzerdefinierter und Drittanbieter-Themes." },
+        { q: "Wie beeinflusst InstaGallery meine Seitengeschwindigkeit?", a: "Wenn Sie InstaGallery installieren, fügen wir Ihrem Shop ein Skript hinzu. Shopify stellt sicher, dass dies die Ladezeiten nicht beeinträchtigt." },
+        { q: "Was soll ich tun, wenn InstaGallery nicht wie erwartet funktioniert?", a: "Sie können unser Support-Team kontaktieren, indem Sie oben auf 'Support-Center besuchen' klicken oder eine E-Mail an apps.kaswebtech@gmail.com senden." },
       ],
     },
     analytics: {
@@ -420,13 +420,13 @@ const TRANSLATIONS = {
   },
 
   fr: {
-    nav: { home: "TermGuard", analytics: "Analytiques", settings: "Paramètres", instagram: "Flux Instagram", billing: "Facturation", support: "Support" },
+    nav: { home: "InstaGallery", analytics: "Analytiques", settings: "Paramètres", instagram: "Flux Instagram", billing: "Facturation", support: "Support" },
     common: { save: "Enregistrer", saved: "Paramètres enregistrés", dismiss: "Fermer", back: "Accueil", cancel: "Annuler", upgrade: "Passer à Pro — 6,99$/mois", contactSupport: "Contacter le support" },
     dashboard: {
-      title: "TermGuard",
-      setupTitle: "Comment configurer TermGuard",
+      title: "InstaGallery",
+      setupTitle: "Comment configurer InstaGallery",
       step1Title: "Étape 1 — Activer le bloc d'intégration",
-      step1Desc: 'Dans votre admin Shopify, allez dans Boutique en ligne → Thèmes → Personnaliser → Intégrations d\'apps. Trouvez "TermGuard" et activez-le, puis cliquez sur Enregistrer.',
+      step1Desc: 'Dans votre admin Shopify, allez dans Boutique en ligne → Thèmes → Personnaliser → Intégrations d\'apps. Trouvez "InstaGallery" et activez-le, puis cliquez sur Enregistrer.',
       step2Title: "Étape 2 — Personnaliser la case à cocher",
       step2Desc: "Allez à la page Paramètres pour configurer le texte d'accord, les liens, le design et les pages où afficher la case.",
       step3Title: "Étape 3 — Aperçu de votre boutique",
@@ -438,10 +438,10 @@ const TRANSLATIONS = {
       overLimitTitle: "Limite du plan gratuit atteinte", overLimitDesc: "La case de consentement est toujours visible mais ne peut pas être cochée. Passez à Pro pour des paiements illimités.",
       faqTitle: "Questions Fréquentes",
       faq: [
-        { q: "Comment personnaliser TermGuard ?", a: "Facile ! Rendez-vous sur votre tableau de bord TermGuard et cliquez sur 'Paramètres'. Notre éditeur vous guidera à partir de là." },
-        { q: "TermGuard fonctionne-t-il avec tous les thèmes Shopify ?", a: "Absolument ! TermGuard est conçu pour fonctionner avec tous les thèmes Shopify, y compris les thèmes personnalisés et tiers." },
-        { q: "Comment TermGuard affectera-t-il la vitesse de ma page ?", a: "Lorsque vous installez TermGuard, nous ajoutons un script à votre boutique. Shopify veille à ce que cela n'affecte pas les temps de chargement." },
-        { q: "Que faire si TermGuard ne fonctionne pas comme prévu ?", a: "Vous pouvez contacter notre équipe de support en cliquant sur 'Visiter le centre de support' ou en envoyant un email à apps.kaswebtech@gmail.com." },
+        { q: "Comment personnaliser InstaGallery ?", a: "Facile ! Rendez-vous sur votre tableau de bord InstaGallery et cliquez sur 'Paramètres'. Notre éditeur vous guidera à partir de là." },
+        { q: "InstaGallery fonctionne-t-il avec tous les thèmes Shopify ?", a: "Absolument ! InstaGallery est conçu pour fonctionner avec tous les thèmes Shopify, y compris les thèmes personnalisés et tiers." },
+        { q: "Comment InstaGallery affectera-t-il la vitesse de ma page ?", a: "Lorsque vous installez InstaGallery, nous ajoutons un script à votre boutique. Shopify veille à ce que cela n'affecte pas les temps de chargement." },
+        { q: "Que faire si InstaGallery ne fonctionne pas comme prévu ?", a: "Vous pouvez contacter notre équipe de support en cliquant sur 'Visiter le centre de support' ou en envoyant un email à apps.kaswebtech@gmail.com." },
       ],
     },
     analytics: {

@@ -17,7 +17,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     await db.session.deleteMany({ where: { shop } });
   }
 
-  // CUSTOMERS_DATA_REQUEST and CUSTOMERS_REDACT: TermGuard does not store
+  // CUSTOMERS_DATA_REQUEST and CUSTOMERS_REDACT: InstaGallery does not store
   // any customer-identifying data (no names, emails, or order data), only
   // shop-level settings and aggregate analytics, so there is nothing to
   // return or redact for an individual customer.

@@ -21,7 +21,7 @@ export default function App() {
   return (
     <div className={styles.index}>
       <div className={styles.content}>
-        <h1 className={styles.heading}>TermGuard – Terms &amp; Conditions</h1>
+        <h1 className={styles.heading}>InstaGallery: Consent Check</h1>
         <p className={styles.text}>
           Add a customizable Terms &amp; Conditions checkbox to your checkout
           and track customer compliance.

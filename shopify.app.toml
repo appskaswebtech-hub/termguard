@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "07d59adaf9d7cb76e43e73f2ed6b6049"
-name = "TrustKit: Consent & Gallery"
+name = "InstaGallery: Consent Check"
 application_url = "https://checkout-consent.kaswebtechsolutions.com"
 embedded = true
 

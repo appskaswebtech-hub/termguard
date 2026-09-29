@@ -302,7 +302,7 @@ export default function ChatWidget() {
           <div style={{ background: "linear-gradient(135deg,#3B82F6,#6366F1)", padding: "14px 18px", borderRadius: maximized ? "20px 20px 0 0" : "16px 16px 0 0", flexShrink: 0, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
               <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>
-                {assignedAdmin ? `${assignedAdmin} is helping you` : "Chat with TermGuard"}
+                {assignedAdmin ? `${assignedAdmin} is helping you` : "Chat with InstaGallery"}
               </div>
               <div style={{ fontSize: 12, color: "rgba(255,255,255,0.75)", marginTop: 2, display: "flex", alignItems: "center", gap: 5 }}>
                 <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#4ADE80", display: "inline-block" }} />
