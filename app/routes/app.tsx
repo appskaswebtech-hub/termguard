@@ -46,8 +46,8 @@ export default function App() {
             {t.nav.home}
           </Link>
           <Link to="/app/analytics">{t.nav.analytics}</Link>
-          <Link to="/app/settings">{t.nav.settings}</Link>
           <Link to="/app/instagram">{t.nav.instagram}</Link>
+          <Link to="/app/settings">{t.nav.settings}</Link>
           <Link to="/app/billing">{t.nav.billing}</Link>
         </NavMenu>
         <Frame>
