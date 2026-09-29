@@ -195,7 +195,7 @@ export default function Support() {
 
           {/* Section: Optional */}
           <div>
-            <div style={{ fontSize: 12, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>Optional — helps us debug faster</div>
+            <div style={{ fontSize: 12, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>Optional: helps us debug faster</div>
             <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 14 }}>You can skip these if they don't apply.</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               <Field label={t.support.code} value={collaboratorCode} onChange={setCollaboratorCode} helpText={t.support.codeHelp} />

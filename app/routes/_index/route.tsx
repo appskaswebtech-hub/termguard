@@ -50,7 +50,7 @@ export default function App() {
           </li>
           <li>
             <strong>No-code setup</strong>. Enable the app embed and
-            you&apos;re live — no theme code editing required.
+            you&apos;re live: no theme code editing required.
           </li>
         </ul>
       </div>

@@ -37,7 +37,7 @@ export async function syncPlan(admin: GraphqlClient, shop: string) {
 
   const subs = data.currentAppInstallation.activeSubscriptions
     .map((sub) => ({ sub, plan: planFromSubscriptionName(sub.name) }))
-    .filter((entry): entry is { sub: Subscription; plan: "instagram" | "pro" } => entry.plan !== null);
+    .filter((entry): entry is { sub: Subscription; plan: "basic" | "pro" } => entry.plan !== null);
   // Normally only one is active (a new plan replaces the old); prefer Pro if both are.
   const current = subs.find((s) => s.plan === "pro") ?? subs[0] ?? null;
 

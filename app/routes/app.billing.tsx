@@ -9,7 +9,7 @@ import { syncPlan } from "../utils/plan.server";
 import { PAID_PLANS, type PaidPlanKey } from "../utils/plans";
 
 // Plans: Free = development stores only (every feature, no charge).
-// Live stores pick Instagram ($4.99, feed only) or Pro ($6.99, everything).
+// Live stores pick Basic ($4.99, Instagram feed) or Pro ($6.99, everything).
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { admin, session } = await authenticate.admin(request);
 
@@ -30,7 +30,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const intent = formData.get("intent");
 
   if (intent === "subscribe") {
-    const planKey: PaidPlanKey = formData.get("plan") === "instagram" ? "instagram" : "pro";
+    const planKey: PaidPlanKey = formData.get("plan") === "basic" ? "basic" : "pro";
     const chosen = PAID_PLANS[planKey];
     const returnUrl = `https://${session.shop}/admin/apps/${process.env.SHOPIFY_API_KEY}/app/billing`;
     const response = await admin.graphql(
@@ -204,11 +204,11 @@ export default function Billing() {
           {!isDevStore && <div style={{ fontSize: 13, color: "#9CA3AF" }}>{t.billing.freeLiveNote}</div>}
         </div>
 
-        {/* Instagram — feed only */}
-        <div style={card(paidPlan === "instagram")}>
-          {paidPlan === "instagram" ? <Badge tone="green">{t.billing.current}</Badge> : !isDevStore && <Badge tone="blue">{t.billing.trial}</Badge>}
-          <div style={{ fontSize: 16, fontWeight: 700, color: "#111827", marginBottom: 8 }}>{t.billing.instagramPlan}</div>
-          {priceBlock("$4.99", t.billing.instagramPlanDesc)}
+        {/* Basic: Instagram feed only */}
+        <div style={card(paidPlan === "basic")}>
+          {paidPlan === "basic" ? <Badge tone="green">{t.billing.current}</Badge> : !isDevStore && <Badge tone="blue">{t.billing.trial}</Badge>}
+          <div style={{ fontSize: 16, fontWeight: 700, color: "#111827", marginBottom: 8 }}>{t.billing.basicPlan}</div>
+          {priceBlock("$4.99", "")}
           <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
             <FeatureItem label={t.billing.feat.instagram} included />
             <FeatureItem label={t.billing.feat.layouts} included />
@@ -217,7 +217,7 @@ export default function Billing() {
             <FeatureItem label={t.billing.termsRow} included={false} />
             <FeatureItem label={t.billing.feat.analytics} included={false} />
           </ul>
-          {paidFooter("instagram")}
+          {paidFooter("basic")}
         </div>
 
         {/* Pro — everything */}

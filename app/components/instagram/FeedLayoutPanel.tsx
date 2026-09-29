@@ -127,11 +127,11 @@ export default function FeedLayoutPanel({ feed, onChange }: FeedLayoutPanelProps
               disabled={feed.postShape === "circle"}
               onChange={(value) => onChange({ aspectRatio: value as FeedSettings["aspectRatio"] })}
               options={[
-                { label: "1:1 — Square", value: "1:1" },
-                { label: "4:5 — Portrait", value: "4:5" },
-                { label: "3:4 — Portrait", value: "3:4" },
-                { label: "9:16 — Reel", value: "9:16" },
-                { label: "16:9 — Landscape", value: "16:9" },
+                { label: "1:1 (Square)", value: "1:1" },
+                { label: "4:5 (Portrait)", value: "4:5" },
+                { label: "3:4 (Portrait)", value: "3:4" },
+                { label: "9:16 (Reel)", value: "9:16" },
+                { label: "16:9 (Landscape)", value: "16:9" },
               ]}
             />
             <Select

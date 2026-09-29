@@ -56,12 +56,12 @@ export default function PrivacyPolicy() {
               <Section title="Information We Collect">
                 <p style={p}>When you install InstaGallery, we collect and store the following:</p>
                 <ul style={ul}>
-                  <li style={li}><strong>Shop domain</strong> — your Shopify store URL (e.g. yourstore.myshopify.com)</li>
-                  <li style={li}><strong>Access token</strong> — a Shopify-issued token to authenticate API requests on your behalf</li>
-                  <li style={li}><strong>App settings</strong> — your checkbox configuration, design preferences, agreement text, and link URLs</li>
-                  <li style={li}><strong>Analytics events</strong> — anonymous checkbox interaction data (checked/unchecked, location, timestamp) with no personally identifiable customer information</li>
-                  <li style={li}><strong>Support messages</strong> — name, email, and message content when you contact us through the app</li>
-                  <li style={li}><strong>Instagram feed (optional)</strong> — if you connect an Instagram Business or Creator account: your Instagram user ID, username, account type, an Instagram access token, and your recent posts' media URLs, captions, permalinks and timestamps. Photos and videos you upload for the feed are stored on our servers.</li>
+                  <li style={li}><strong>Shop domain</strong>: your Shopify store URL (e.g. yourstore.myshopify.com)</li>
+                  <li style={li}><strong>Access token</strong>: a Shopify-issued token to authenticate API requests on your behalf</li>
+                  <li style={li}><strong>App settings</strong>: your checkbox configuration, design preferences, agreement text, and link URLs</li>
+                  <li style={li}><strong>Analytics events</strong>: anonymous checkbox interaction data (checked/unchecked, location, timestamp) with no personally identifiable customer information</li>
+                  <li style={li}><strong>Support messages</strong>: name, email, and message content when you contact us through the app</li>
+                  <li style={li}><strong>Instagram feed (optional)</strong>: if you connect an Instagram Business or Creator account: your Instagram user ID, username, account type, an Instagram access token, and your recent posts' media URLs, captions, permalinks and timestamps. Photos and videos you upload for the feed are stored on our servers.</li>
                 </ul>
               </Section>
               <Divider />
@@ -94,9 +94,9 @@ export default function PrivacyPolicy() {
               <Section title="Third-Party Services">
                 <p style={p}>InstaGallery uses the following third-party services:</p>
                 <ul style={ul}>
-                  <li style={li}><strong>Shopify</strong> — for store authentication and app embedding</li>
-                  <li style={li}><strong>Shopify Billing API</strong> — for subscription and payment management</li>
-                  <li style={li}><strong>Instagram API (Meta)</strong> — only if you connect an Instagram account, to read your profile and recent posts for display in your storefront feed</li>
+                  <li style={li}><strong>Shopify</strong>: for store authentication and app embedding</li>
+                  <li style={li}><strong>Shopify Billing API</strong>: for subscription and payment management</li>
+                  <li style={li}><strong>Instagram API (Meta)</strong>: only if you connect an Instagram account, to read your profile and recent posts for display in your storefront feed</li>
                 </ul>
               </Section>
               <Divider />
@@ -117,10 +117,10 @@ export default function PrivacyPolicy() {
               </Section>
               <Divider />
               <Section title="Billing & Payments">
-                <p style={p}>InstaGallery offers three plans: a Free plan for development stores, an Instagram plan at $4.99/month (Instagram feed only) and a Pro plan at $6.99/month (terms checkbox and Instagram feed):</p>
+                <p style={p}>InstaGallery offers three plans: a Free plan for development stores, a Basic plan at $4.99/month (Instagram feed) and a Pro plan at $6.99/month (terms checkbox and Instagram feed):</p>
                 <ul style={ul}>
                   <li style={li}>All billing is processed exclusively through the <strong>Shopify Billing API</strong> in compliance with Shopify's Partner Program Agreement</li>
-                  <li style={li}>The Instagram and Pro plans include a 7-day free trial</li>
+                  <li style={li}>The Basic and Pro plans include a 7-day free trial</li>
                   <li style={li}>Subscriptions renew automatically every 30 days</li>
                   <li style={li}>You may cancel your subscription at any time from within the app</li>
                   <li style={li}>No refunds are issued for partial billing periods</li>
@@ -128,7 +128,7 @@ export default function PrivacyPolicy() {
               </Section>
               <Divider />
               <Section title="Free Plan Limitations">
-                The free plan is available on Shopify development stores only. Live stores need the Instagram plan or the Pro plan; the storefront features stay inactive until a plan is active.
+                The free plan is available on Shopify development stores only. Live stores need the Basic plan or the Pro plan; the storefront features stay inactive until a plan is active.
               </Section>
               <Divider />
               <Section title="Acceptable Use">

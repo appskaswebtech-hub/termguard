@@ -170,7 +170,7 @@ export default function MediaPanel(props: MediaPanelProps) {
                             <Badge tone={post.mediaType === "VIDEO" ? "info" : undefined}>{post.mediaType === "VIDEO" ? t.video : t.image}</Badge>
                           </InlineStack>
                           <Text as="p" variant="bodySm" tone={post.caption ? undefined : "subdued"} truncate>
-                            {post.caption || "—"}
+                            {post.caption || ""}
                           </Text>
                         </BlockStack>
                       )}
