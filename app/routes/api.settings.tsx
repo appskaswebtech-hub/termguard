@@ -6,7 +6,6 @@ const CORS_HEADERS = {
   "Access-Control-Allow-Methods": "GET, OPTIONS",
 };
 
-const FREE_PLAN_LIMIT = 10;
 
 const DEFAULT_TEXTS: Record<string, { agreementText: string; errorMessage: string; helperText: string }> = {
   en: {
@@ -57,11 +56,18 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     return Response.json({ error: "Settings not found" }, { status: 404, headers: CORS_HEADERS });
   }
 
+  // Free is for development stores only (they are stored as "pro"); a live store
+  // without a Pro subscription gets no checkbox until it subscribes.
+  if (settings.plan !== "pro") {
+    return Response.json({ error: "Subscription required" }, { status: 402, headers: CORS_HEADERS });
+  }
+
   // Manual language override wins over auto-detected locale
   const settingsLanguage = (settings as unknown as { language?: string }).language || "auto";
   const locale = settingsLanguage !== "auto" ? settingsLanguage : requestLocale;
   const translations = DEFAULT_TEXTS[locale] || DEFAULT_TEXTS.en;
-  const overLimit = settings.plan === "free" && settings.monthlyOrderCount >= FREE_PLAN_LIMIT;
+  // Only Pro stores reach this point, so the old free-plan checkout limit never applies.
+  const overLimit = false;
 
   // Use locale-translated defaults when merchant hasn't customized the text
   const agreementText =

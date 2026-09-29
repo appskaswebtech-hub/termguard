@@ -94,6 +94,7 @@ const TRANSLATIONS = {
       feat: { orders10: "10 checkouts per month", design: "All design options", analytics: "Analytics dashboard", lockedMsg: "Default error message (not editable)", unlimited: "Unlimited checkouts", customMsg: "Custom error message", priority: "Priority support", instagram: "Instagram feed (auto-sync posts & reels)", layouts: "Grid, slider, list & floating gallery layouts", media: "Upload your own photos & videos" },
       devTitle: "Development store — everything is free", devDesc: "All Pro features, including the Instagram feed, are free while you build or test on a development store. No subscription needed.", devFree: "Free on development stores",
       featureCol: "Feature", checkoutsRow: "Checkouts per month", unlimitedShort: "Unlimited", termsRow: "Terms & conditions checkbox",
+      devOnly: "Dev stores only", devOnlyDesc: "For development stores — every feature included.", freeLiveNote: "Not available on live stores. Choose the Pro plan to use the app on your live store.", proDesc: "For live stores — every feature included.", proDevNote: "Required once your store goes live.", subscribeTitle: "Choose the Pro plan to activate the app", subscribeDesc: "The free plan is only available on development stores. Start the Pro plan (7-day free trial) to turn on the consent checkbox and Instagram feed on your live store.",
     },
     support: {
       title: "Support", name: "Your name", email: "Email",
@@ -198,6 +199,7 @@ const TRANSLATIONS = {
       feat: { orders10: "10 pagos por mes", design: "Todas las opciones de diseño", analytics: "Panel de analíticas", lockedMsg: "Mensaje de error predeterminado (no editable)", unlimited: "Pagos ilimitados", customMsg: "Mensaje de error personalizado", priority: "Soporte prioritario", instagram: "Feed de Instagram (sincroniza publicaciones y reels)", layouts: "Galería en cuadrícula, carrusel, lista y burbuja flotante", media: "Sube tus propias fotos y vídeos" },
       devTitle: "Tienda de desarrollo — todo es gratis", devDesc: "Todas las funciones Pro, incluido el feed de Instagram, son gratis mientras desarrollas o pruebas en una tienda de desarrollo. No necesitas suscripción.", devFree: "Gratis en tiendas de desarrollo",
       featureCol: "Función", checkoutsRow: "Pagos por mes", unlimitedShort: "Ilimitados", termsRow: "Casilla de términos y condiciones",
+      devOnly: "Solo tiendas de desarrollo", devOnlyDesc: "Para tiendas de desarrollo — todas las funciones incluidas.", freeLiveNote: "No disponible en tiendas activas. Elige el plan Pro para usar la app en tu tienda.", proDesc: "Para tiendas activas — todas las funciones incluidas.", proDevNote: "Necesario cuando tu tienda esté activa.", subscribeTitle: "Elige el plan Pro para activar la app", subscribeDesc: "El plan gratuito solo está disponible en tiendas de desarrollo. Inicia el plan Pro (7 días de prueba gratis) para activar la casilla de consentimiento y el feed de Instagram en tu tienda.",
     },
     support: {
       title: "Soporte", name: "Tu nombre", email: "Correo electrónico",
@@ -302,6 +304,7 @@ const TRANSLATIONS = {
       feat: { orders10: "10 checkout al mese", design: "Tutte le opzioni di design", analytics: "Dashboard analitiche", lockedMsg: "Messaggio di errore predefinito (non modificabile)", unlimited: "Checkout illimitati", customMsg: "Messaggio di errore personalizzato", priority: "Supporto prioritario", instagram: "Feed Instagram (sincronizza post e reel)", layouts: "Galleria a griglia, slider, elenco e bolla fluttuante", media: "Carica le tue foto e i tuoi video" },
       devTitle: "Negozio di sviluppo — tutto gratis", devDesc: "Tutte le funzionalità Pro, incluso il feed Instagram, sono gratuite mentre sviluppi o testi su un negozio di sviluppo. Nessun abbonamento necessario.", devFree: "Gratis sui negozi di sviluppo",
       featureCol: "Funzione", checkoutsRow: "Checkout al mese", unlimitedShort: "Illimitati", termsRow: "Casella termini e condizioni",
+      devOnly: "Solo negozi di sviluppo", devOnlyDesc: "Per negozi di sviluppo — tutte le funzioni incluse.", freeLiveNote: "Non disponibile sui negozi attivi. Scegli il piano Pro per usare l’app sul tuo negozio.", proDesc: "Per negozi attivi — tutte le funzioni incluse.", proDevNote: "Necessario quando il negozio sarà attivo.", subscribeTitle: "Scegli il piano Pro per attivare l’app", subscribeDesc: "Il piano gratuito è disponibile solo sui negozi di sviluppo. Avvia il piano Pro (7 giorni di prova gratuita) per attivare la casella di consenso e il feed Instagram sul tuo negozio.",
     },
     support: {
       title: "Supporto", name: "Il tuo nome", email: "Email",
@@ -406,6 +409,7 @@ const TRANSLATIONS = {
       feat: { orders10: "10 Checkouts pro Monat", design: "Alle Design-Optionen", analytics: "Analyse-Dashboard", lockedMsg: "Standard-Fehlermeldung (nicht bearbeitbar)", unlimited: "Unbegrenzte Checkouts", customMsg: "Benutzerdefinierte Fehlermeldung", priority: "Prioritäts-Support", instagram: "Instagram-Feed (Beiträge & Reels automatisch synchronisiert)", layouts: "Galerie als Raster, Slider, Liste & schwebende Blase", media: "Eigene Fotos & Videos hochladen" },
       devTitle: "Entwicklungsshop — alles kostenlos", devDesc: "Alle Pro-Funktionen, einschließlich des Instagram-Feeds, sind kostenlos, solange du in einem Entwicklungsshop baust oder testest. Kein Abo nötig.", devFree: "Kostenlos für Entwicklungsshops",
       featureCol: "Funktion", checkoutsRow: "Checkouts pro Monat", unlimitedShort: "Unbegrenzt", termsRow: "AGB-Checkbox",
+      devOnly: "Nur Entwicklungsshops", devOnlyDesc: "Für Entwicklungsshops — alle Funktionen inklusive.", freeLiveNote: "Nicht für Live-Shops verfügbar. Wähle den Pro-Plan, um die App in deinem Live-Shop zu nutzen.", proDesc: "Für Live-Shops — alle Funktionen inklusive.", proDevNote: "Erforderlich, sobald dein Shop live geht.", subscribeTitle: "Wähle den Pro-Plan, um die App zu aktivieren", subscribeDesc: "Der kostenlose Plan ist nur für Entwicklungsshops verfügbar. Starte den Pro-Plan (7 Tage kostenlos testen), um die Zustimmungs-Checkbox und den Instagram-Feed in deinem Live-Shop zu aktivieren.",
     },
     support: {
       title: "Support", name: "Ihr Name", email: "E-Mail",
@@ -510,6 +514,7 @@ const TRANSLATIONS = {
       feat: { orders10: "10 paiements par mois", design: "Toutes les options de design", analytics: "Tableau de bord analytiques", lockedMsg: "Message d'erreur par défaut (non modifiable)", unlimited: "Paiements illimités", customMsg: "Message d'erreur personnalisé", priority: "Support prioritaire", instagram: "Flux Instagram (publications et reels synchronisés)", layouts: "Galerie en grille, carrousel, liste et bulle flottante", media: "Importez vos propres photos et vidéos" },
       devTitle: "Boutique de développement — tout est gratuit", devDesc: "Toutes les fonctionnalités Pro, y compris le flux Instagram, sont gratuites tant que vous développez ou testez sur une boutique de développement. Aucun abonnement requis.", devFree: "Gratuit pour les boutiques de développement",
       featureCol: "Fonctionnalité", checkoutsRow: "Paiements par mois", unlimitedShort: "Illimités", termsRow: "Case des conditions générales",
+      devOnly: "Boutiques de développement uniquement", devOnlyDesc: "Pour les boutiques de développement — toutes les fonctionnalités incluses.", freeLiveNote: "Non disponible pour les boutiques en ligne. Choisissez le plan Pro pour utiliser l’app sur votre boutique.", proDesc: "Pour les boutiques en ligne — toutes les fonctionnalités incluses.", proDevNote: "Requis dès que votre boutique est en ligne.", subscribeTitle: "Choisissez le plan Pro pour activer l’app", subscribeDesc: "Le plan gratuit est réservé aux boutiques de développement. Démarrez le plan Pro (7 jours d’essai gratuit) pour activer la case de consentement et le flux Instagram sur votre boutique.",
     },
     support: {
       title: "Support", name: "Votre nom", email: "Email",

@@ -7,19 +7,17 @@ import db from "../db.server";
 import { useT } from "../utils/i18n";
 import { PRO_PLAN_NAME, syncPlan } from "../utils/plan.server";
 
-const FREE_LIMIT = 10;
-
+// Plans: Free = development stores only (every feature, no charge).
+// Live stores must subscribe to Pro ($6.99/month) to use the app.
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { admin, session } = await authenticate.admin(request);
 
-  const { plan, isDevStore, activeSub } = await syncPlan(admin, session.shop);
-  const settings = await db.settings.findUnique({ where: { shop: session.shop } });
+  const { isDevStore, activeSub } = await syncPlan(admin, session.shop);
 
   return {
-    plan,
     isDevStore,
+    isPaid: Boolean(activeSub),
     shop: session.shop,
-    monthlyOrderCount: settings?.monthlyOrderCount ?? 0,
     subscriptionEndDate: activeSub?.currentPeriodEnd ?? null,
     trialDays: activeSub?.trialDays ?? 0,
   };
@@ -90,22 +88,45 @@ function FeatureItem({ label, included }: { label: string; included: boolean }) 
   );
 }
 
+function Badge({ children, tone }: { children: React.ReactNode; tone: "green" | "blue" | "grey" }) {
+  const colors = { green: ["#ECFDF5", "#059669"], blue: ["#EFF6FF", "#2563EB"], grey: ["#F3F4F6", "#6B7280"] }[tone];
+  return (
+    <div style={{ position: "absolute", top: 16, right: 16, background: colors[0], color: colors[1], fontSize: 11, fontWeight: 700, borderRadius: 99, padding: "3px 10px" }}>
+      {children}
+    </div>
+  );
+}
+
 export default function Billing() {
-  const { plan, isDevStore, shop, monthlyOrderCount, subscriptionEndDate, trialDays } = useLoaderData<typeof loader>();
+  const { isDevStore, isPaid, shop, subscriptionEndDate, trialDays } = useLoaderData<typeof loader>();
   const actionData = useActionData<{ confirmationUrl?: string }>();
   const submit = useSubmit();
   const navigation = useNavigation();
   const t = useT();
   const isLoading = navigation.state !== "idle";
-  const isPro = plan === "pro";
-  const usagePercent = Math.min((monthlyOrderCount / FREE_LIMIT) * 100, 100);
-  const overLimit = !isPro && monthlyOrderCount >= FREE_LIMIT;
 
   useEffect(() => {
     if (actionData?.confirmationUrl) {
       window.open(actionData.confirmationUrl, "_top");
     }
   }, [actionData]);
+
+  // Both plans include everything; they only differ in who can use them.
+  const features = [
+    t.billing.feat.unlimited,
+    t.billing.feat.design,
+    t.billing.feat.analytics,
+    t.billing.feat.customMsg,
+    t.billing.feat.instagram,
+    t.billing.feat.layouts,
+    t.billing.feat.media,
+    t.billing.feat.priority,
+  ];
+
+  const card = (active: boolean): React.CSSProperties => ({
+    flex: "1 1 280px", background: "#fff", borderRadius: 14, padding: 28, boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
+    border: active ? "2px solid #3B82F6" : "2px solid #F3F4F6", position: "relative",
+  });
 
   return (
     <div style={{ padding: "24px 28px", maxWidth: 900, margin: "0 auto" }}>
@@ -118,102 +139,48 @@ export default function Billing() {
       </div>
       <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 24 }}>Manage your subscription and plan features</div>
 
-      {/* Development store: everything free */}
-      {isDevStore && (
-        <div style={{ background: "#ECFDF5", border: "1px solid #A7F3D0", borderRadius: 12, padding: "14px 20px", marginBottom: 20 }}>
-          <div style={{ fontSize: 14, fontWeight: 600, color: "#065F46" }}>{t.billing.devTitle}</div>
-          <div style={{ fontSize: 13, color: "#047857", marginTop: 2 }}>{t.billing.devDesc}</div>
-        </div>
-      )}
-
-      {/* Over limit banner */}
-      {overLimit && (
-        <div style={{ background: "#FFFBEB", border: "1px solid #FCD34D", borderRadius: 12, padding: "14px 20px", marginBottom: 20, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: "#92400E" }}>{t.billing.overLimitTitle}</div>
-            <div style={{ fontSize: 13, color: "#B45309", marginTop: 2 }}>{t.billing.overLimitDesc}</div>
-          </div>
-          <button
-            onClick={() => submit({ intent: "subscribe", shop }, { method: "post" })}
-            style={{ background: "#F59E0B", color: "#fff", border: "none", borderRadius: 8, padding: "8px 16px", fontSize: 13, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", marginLeft: 16 }}
-          >
-            {t.billing.upgradeCta}
-          </button>
+      {/* Live store without a subscription: the app is inactive until they pick Pro */}
+      {!isDevStore && !isPaid && (
+        <div style={{ background: "#FFFBEB", border: "1px solid #FCD34D", borderRadius: 12, padding: "14px 20px", marginBottom: 20 }}>
+          <div style={{ fontSize: 14, fontWeight: 600, color: "#92400E" }}>{t.billing.subscribeTitle}</div>
+          <div style={{ fontSize: 13, color: "#B45309", marginTop: 2 }}>{t.billing.subscribeDesc}</div>
         </div>
       )}
 
       {/* Plan cards */}
       <div style={{ display: "flex", gap: 20, flexWrap: "wrap", marginBottom: 24 }}>
-        {/* Free Plan */}
-        <div style={{ flex: "1 1 280px", background: "#fff", borderRadius: 14, padding: 28, boxShadow: "0 1px 4px rgba(0,0,0,0.07)", border: !isPro ? "2px solid #3B82F6" : "2px solid #F3F4F6", position: "relative" }}>
-          {!isPro && (
-            <div style={{ position: "absolute", top: 16, right: 16, background: "#ECFDF5", color: "#059669", fontSize: 11, fontWeight: 700, borderRadius: 99, padding: "3px 10px" }}>
-              {t.billing.current}
-            </div>
-          )}
+        {/* Free Plan — development stores only */}
+        <div style={card(isDevStore)}>
+          {isDevStore ? <Badge tone="green">{t.billing.current}</Badge> : <Badge tone="grey">{t.billing.devOnly}</Badge>}
           <div style={{ fontSize: 16, fontWeight: 700, color: "#111827", marginBottom: 8 }}>{t.billing.free}</div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: "#111827", marginBottom: 16 }}>
+          <div style={{ fontSize: 32, fontWeight: 800, color: "#111827", marginBottom: 4 }}>
             $0<span style={{ fontSize: 14, fontWeight: 400, color: "#9CA3AF" }}>{t.billing.month}</span>
           </div>
+          <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 16 }}>{t.billing.devOnlyDesc}</div>
           <div style={{ height: 1, background: "#F3F4F6", marginBottom: 16 }} />
           <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px", display: "flex", flexDirection: "column", gap: 10 }}>
-            {[
-              { label: t.billing.feat.orders10, included: true },
-              { label: t.billing.feat.design, included: true },
-              { label: t.billing.feat.analytics, included: true },
-              { label: t.billing.feat.lockedMsg, included: false },
-              { label: t.billing.feat.instagram, included: false },
-              { label: t.billing.feat.media, included: false },
-            ].map((f) => (
-              <FeatureItem key={f.label} label={f.label} included={f.included} />
-            ))}
-          </ul>
-          {!isPro && (
-            <div>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#6B7280", marginBottom: 6 }}>
-                <span>{t.billing.usage}</span>
-                <span style={{ color: overLimit ? "#EF4444" : "#6B7280", fontWeight: 600 }}>{monthlyOrderCount} / {FREE_LIMIT}</span>
-              </div>
-              <div style={{ height: 6, background: "#F3F4F6", borderRadius: 99, overflow: "hidden" }}>
-                <div style={{ height: "100%", width: `${usagePercent}%`, background: overLimit ? "#EF4444" : "#3B82F6", borderRadius: 99, transition: "width 0.3s" }} />
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Pro Plan */}
-        <div style={{ flex: "1 1 280px", background: "#fff", borderRadius: 14, padding: 28, boxShadow: "0 1px 4px rgba(0,0,0,0.07)", border: isPro ? "2px solid #3B82F6" : "2px solid #F3F4F6", position: "relative" }}>
-          {isPro ? (
-            <div style={{ position: "absolute", top: 16, right: 16, background: "#ECFDF5", color: "#059669", fontSize: 11, fontWeight: 700, borderRadius: 99, padding: "3px 10px" }}>
-              {t.billing.current}
-            </div>
-          ) : (
-            <div style={{ position: "absolute", top: 16, right: 16, background: "#EFF6FF", color: "#2563EB", fontSize: 11, fontWeight: 700, borderRadius: 99, padding: "3px 10px" }}>
-              {t.billing.trial}
-            </div>
-          )}
-          <div style={{ fontSize: 16, fontWeight: 700, color: "#111827", marginBottom: 8 }}>{t.billing.pro}</div>
-          <div style={{ fontSize: 32, fontWeight: 800, color: "#111827", marginBottom: 16 }}>
-            $6.99<span style={{ fontSize: 14, fontWeight: 400, color: "#9CA3AF" }}>{t.billing.month}</span>
-          </div>
-          <div style={{ height: 1, background: "#F3F4F6", marginBottom: 16 }} />
-          <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px", display: "flex", flexDirection: "column", gap: 10 }}>
-            {[
-              t.billing.feat.unlimited,
-              t.billing.feat.design,
-              t.billing.feat.analytics,
-              t.billing.feat.customMsg,
-              t.billing.feat.instagram,
-              t.billing.feat.layouts,
-              t.billing.feat.media,
-              t.billing.feat.priority,
-            ].map((label) => (
+            {features.map((label) => (
               <FeatureItem key={label} label={label} included />
             ))}
           </ul>
-          {isDevStore ? (
-            <div style={{ fontSize: 13, fontWeight: 600, color: "#059669" }}>{t.billing.devFree}</div>
-          ) : isPro ? (
+          {!isDevStore && <div style={{ fontSize: 13, color: "#9CA3AF" }}>{t.billing.freeLiveNote}</div>}
+        </div>
+
+        {/* Pro Plan — live stores */}
+        <div style={card(isPaid)}>
+          {isPaid ? <Badge tone="green">{t.billing.current}</Badge> : !isDevStore && <Badge tone="blue">{t.billing.trial}</Badge>}
+          <div style={{ fontSize: 16, fontWeight: 700, color: "#111827", marginBottom: 8 }}>{t.billing.pro}</div>
+          <div style={{ fontSize: 32, fontWeight: 800, color: "#111827", marginBottom: 4 }}>
+            $6.99<span style={{ fontSize: 14, fontWeight: 400, color: "#9CA3AF" }}>{t.billing.month}</span>
+          </div>
+          <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 16 }}>{t.billing.proDesc}</div>
+          <div style={{ height: 1, background: "#F3F4F6", marginBottom: 16 }} />
+          <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px", display: "flex", flexDirection: "column", gap: 10 }}>
+            {features.map((label) => (
+              <FeatureItem key={label} label={label} included />
+            ))}
+          </ul>
+          {isPaid ? (
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {subscriptionEndDate && (
                 <div style={{ fontSize: 13, color: "#6B7280" }}>
@@ -231,6 +198,8 @@ export default function Billing() {
                 {isLoading ? "…" : t.billing.cancelSub}
               </button>
             </div>
+          ) : isDevStore ? (
+            <div style={{ fontSize: 13, color: "#9CA3AF" }}>{t.billing.proDevNote}</div>
           ) : (
             <button
               onClick={() => submit({ intent: "subscribe", shop }, { method: "post" })}

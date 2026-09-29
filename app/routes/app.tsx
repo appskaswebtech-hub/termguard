@@ -14,6 +14,7 @@ import { authenticate } from "../shopify.server";
 import db from "../db.server";
 import FooterHelpBar from "../components/FooterHelpBar";
 import { getTranslations } from "../utils/i18n";
+import { syncPlan } from "../utils/plan.server";
 
 const POLARIS_LOCALES: Record<string, object> = {
   en: polarisEn,
@@ -24,9 +25,18 @@ const POLARIS_LOCALES: Record<string, object> = {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const { session } = await authenticate.admin(request);
+  const { session, admin, redirect } = await authenticate.admin(request);
   const rawSettings = await db.settings.findUnique({ where: { shop: session.shop } });
   const language = (rawSettings as unknown as { language?: string })?.language ?? "auto";
+
+  // Free is for development stores only: a live store must be on Pro to use the
+  // app, so every page except Billing sends it there. Re-check with Shopify
+  // first so a just-approved subscription isn't bounced back.
+  const onBilling = new URL(request.url).pathname.startsWith("/app/billing");
+  if (!onBilling && rawSettings?.plan !== "pro") {
+    const { plan } = await syncPlan(admin, session.shop).catch(() => ({ plan: rawSettings?.plan ?? "free" }));
+    if (plan !== "pro") throw redirect("/app/billing");
+  }
 
   // eslint-disable-next-line no-undef
   return { apiKey: process.env.SHOPIFY_API_KEY || "", language };
