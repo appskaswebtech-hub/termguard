@@ -11,6 +11,7 @@ import SetupGuide from "../components/SetupGuide";
 import AnalyticsOverview from "../components/AnalyticsOverview";
 import InstagramHomeCard from "../components/instagram/InstagramHomeCard";
 import { getFeedPosts } from "../utils/instagram-feed.server";
+import { hasInstagramFeature } from "../utils/plans";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { session } = await authenticate.admin(request);
@@ -153,7 +154,7 @@ export default function Index() {
           </div>
         )}
 
-        <InstagramHomeCard username={instagram.username} postCount={instagram.postCount} thumbnails={instagram.thumbnails} isPro={settings.plan === "pro"} />
+        <InstagramHomeCard username={instagram.username} postCount={instagram.postCount} thumbnails={instagram.thumbnails} isPro={hasInstagramFeature(settings.plan)} />
 
         <AnalyticsOverview
           totalChecks={stats.totalChecks}

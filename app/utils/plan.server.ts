@@ -1,23 +1,28 @@
 import db from "../db.server";
-
-export const PRO_PLAN_NAME = "pro plan";
+import { planFromSubscriptionName, type PlanKey } from "./plans";
 
 interface GraphqlClient {
   graphql: (query: string) => Promise<Response>;
 }
 
+interface Subscription {
+  id: string;
+  name: string;
+  status: string;
+  currentPeriodEnd: string;
+  trialDays: number;
+}
+
 interface PlanQuery {
   data: {
     shop: { plan: { partnerDevelopment: boolean } };
-    currentAppInstallation: {
-      activeSubscriptions: { id: string; name: string; status: string; currentPeriodEnd: string; trialDays: number }[];
-    };
+    currentAppInstallation: { activeSubscriptions: Subscription[] };
   };
 }
 
 /**
  * Work out the shop's plan from Shopify and store it on Settings.
- * Development stores get every Pro feature for free (they can't be charged anyway).
+ * Development stores get every feature for free (they can't be charged anyway).
  */
 export async function syncPlan(admin: GraphqlClient, shop: string) {
   const response = await admin.graphql(`#graphql
@@ -30,14 +35,20 @@ export async function syncPlan(admin: GraphqlClient, shop: string) {
   `);
   const { data } = (await response.json()) as PlanQuery;
 
-  const activeSub = data.currentAppInstallation.activeSubscriptions.find((s) => s.name === PRO_PLAN_NAME) ?? null;
+  const subs = data.currentAppInstallation.activeSubscriptions
+    .map((sub) => ({ sub, plan: planFromSubscriptionName(sub.name) }))
+    .filter((entry): entry is { sub: Subscription; plan: "instagram" | "pro" } => entry.plan !== null);
+  // Normally only one is active (a new plan replaces the old); prefer Pro if both are.
+  const current = subs.find((s) => s.plan === "pro") ?? subs[0] ?? null;
+
   const isDevStore = data.shop.plan.partnerDevelopment === true;
-  const plan = activeSub || isDevStore ? "pro" : "free";
+  const plan: PlanKey = isDevStore ? "pro" : current?.plan ?? "free";
+  const activeSub = current?.sub ?? null;
 
   await db.settings.update({
     where: { shop },
     data: { plan, subscriptionId: activeSub?.id ?? null },
   });
 
-  return { plan, isDevStore, activeSub };
+  return { plan, isDevStore, activeSub, paidPlan: current?.plan ?? null };
 }

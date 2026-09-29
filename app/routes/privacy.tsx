@@ -118,10 +118,10 @@ export default function PrivacyPolicy() {
               </Section>
               <Divider />
               <Section title="Billing & Payments">
-                <p style={p}>InstaGallery offers a free plan and a Pro plan at $6.99/month:</p>
+                <p style={p}>InstaGallery offers three plans: a Free plan for development stores, an Instagram plan at $4.99/month (Instagram feed only) and a Pro plan at $6.99/month (terms checkbox and Instagram feed):</p>
                 <ul style={ul}>
                   <li style={li}>All billing is processed exclusively through the <strong>Shopify Billing API</strong> in compliance with Shopify's Partner Program Agreement</li>
-                  <li style={li}>The Pro plan includes a 7-day free trial</li>
+                  <li style={li}>The Instagram and Pro plans include a 7-day free trial</li>
                   <li style={li}>Subscriptions renew automatically every 30 days</li>
                   <li style={li}>You may cancel your subscription at any time from within the app</li>
                   <li style={li}>No refunds are issued for partial billing periods</li>
@@ -129,7 +129,7 @@ export default function PrivacyPolicy() {
               </Section>
               <Divider />
               <Section title="Free Plan Limitations">
-                The free plan is limited to 10 orders per month. If your store exceeds this limit, the checkbox may stop displaying until you upgrade to the Pro plan or the monthly count resets.
+                The free plan is available on Shopify development stores only. Live stores need the Instagram plan or the Pro plan; the storefront features stay inactive until a plan is active.
               </Section>
               <Divider />
               <Section title="Acceptable Use">

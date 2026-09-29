@@ -26,6 +26,7 @@ import {
 } from "../utils/instagram.server";
 import { saveUploadedFile, UploadError } from "../utils/uploads.server";
 import { syncPlan } from "../utils/plan.server";
+import { hasInstagramFeature } from "../utils/plans";
 import { fmt, useInstagramT } from "../utils/instagram-i18n";
 import FeedPreview from "../components/instagram/FeedPreview";
 import FeedLayoutPanel from "../components/instagram/FeedLayoutPanel";
@@ -35,10 +36,10 @@ import ConnectionCard from "../components/instagram/ConnectionCard";
 
 const MAX_FILES_PER_UPLOAD = 10;
 
-// The Instagram feed is a Pro feature (development stores get Pro for free).
-async function hasPro(shop: string) {
+// The Instagram feed needs the Instagram or Pro plan (development stores get everything free).
+async function hasInstagramPlan(shop: string) {
   const settings = await db.settings.findUnique({ where: { shop }, select: { plan: true } });
-  return settings?.plan === "pro";
+  return hasInstagramFeature(settings?.plan);
 }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -47,7 +48,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   // Re-check with Shopify when not Pro, so a fresh dev-store install or a
   // just-approved subscription unlocks the page without visiting Billing first.
-  const isPro = (await hasPro(shop)) || (await syncPlan(admin, shop).then((r) => r.plan === "pro").catch(() => false));
+  const isPro = (await hasInstagramPlan(shop)) || (await syncPlan(admin, shop).then((r) => hasInstagramFeature(r.plan)).catch(() => false));
   if (!isPro) return { locked: true as const };
 
   const [feed, posts, account] = await Promise.all([
@@ -85,7 +86,7 @@ export const action = async ({ request }: ActionFunctionArgs): Promise<ActionRes
   const intent = String(form.get("intent") || "");
   const id = String(form.get("id") || "");
 
-  if (!(await hasPro(shop))) return { intent, ok: false, error: "pro-required" };
+  if (!(await hasInstagramPlan(shop))) return { intent, ok: false, error: "plan-required" };
 
   switch (intent) {
     case "saveFeed": {

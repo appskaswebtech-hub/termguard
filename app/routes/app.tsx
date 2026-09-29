@@ -15,6 +15,7 @@ import db from "../db.server";
 import FooterHelpBar from "../components/FooterHelpBar";
 import { getTranslations } from "../utils/i18n";
 import { syncPlan } from "../utils/plan.server";
+import { hasInstagramFeature, hasTermsFeature } from "../utils/plans";
 
 const POLARIS_LOCALES: Record<string, object> = {
   en: polarisEn,
@@ -29,21 +30,30 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const rawSettings = await db.settings.findUnique({ where: { shop: session.shop } });
   const language = (rawSettings as unknown as { language?: string })?.language ?? "auto";
 
-  // Free is for development stores only: a live store must be on Pro to use the
-  // app, so every page except Billing sends it there. Re-check with Shopify
-  // first so a just-approved subscription isn't bounced back.
-  const onBilling = new URL(request.url).pathname.startsWith("/app/billing");
-  if (!onBilling && rawSettings?.plan !== "pro") {
-    const { plan } = await syncPlan(admin, session.shop).catch(() => ({ plan: rawSettings?.plan ?? "free" }));
-    if (plan !== "pro") throw redirect("/app/billing");
+  // Free is for development stores only: a live store needs a paid plan, so every
+  // page except Billing sends it there. Re-check with Shopify first (when not
+  // already Pro) so a just-approved subscription or plan change isn't bounced back.
+  const pathname = new URL(request.url).pathname;
+  const onBilling = pathname.startsWith("/app/billing");
+  let plan = rawSettings?.plan ?? "free";
+  if (plan !== "pro") {
+    plan = await syncPlan(admin, session.shop).then((r) => r.plan).catch(() => plan);
+  }
+  if (!onBilling) {
+    if (!hasInstagramFeature(plan)) throw redirect("/app/billing");
+    // Instagram plan: no terms checkbox, so its Settings/Analytics/Home don't apply.
+    if (!hasTermsFeature(plan)) {
+      if (pathname.startsWith("/app/settings") || pathname.startsWith("/app/analytics")) throw redirect("/app/billing");
+      if (pathname === "/app" || pathname === "/app/") throw redirect("/app/instagram");
+    }
   }
 
   // eslint-disable-next-line no-undef
-  return { apiKey: process.env.SHOPIFY_API_KEY || "", language };
+  return { apiKey: process.env.SHOPIFY_API_KEY || "", language, hasTerms: hasTermsFeature(plan) };
 };
 
 export default function App() {
-  const { apiKey, language } = useLoaderData<typeof loader>();
+  const { apiKey, language, hasTerms } = useLoaderData<typeof loader>();
   const t = getTranslations(language);
   const effectiveLang = language === "auto" ? "en" : language;
   const polarisTranslations = POLARIS_LOCALES[effectiveLang] ?? POLARIS_LOCALES.en;
@@ -55,9 +65,9 @@ export default function App() {
           <Link to="/app" rel="home">
             {t.nav.home}
           </Link>
-          <Link to="/app/analytics">{t.nav.analytics}</Link>
+          {hasTerms && <Link to="/app/analytics">{t.nav.analytics}</Link>}
           <Link to="/app/instagram">{t.nav.instagram}</Link>
-          <Link to="/app/settings">{t.nav.settings}</Link>
+          {hasTerms && <Link to="/app/settings">{t.nav.settings}</Link>}
           <Link to="/app/billing">{t.nav.billing}</Link>
         </NavMenu>
         <Frame>

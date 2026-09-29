@@ -4,6 +4,7 @@ import db from "../db.server";
 import { DEFAULT_FEED, filterPosts } from "../utils/instagram-feed-types";
 import { getFeedPosts, getFeedSettings } from "../utils/instagram-feed.server";
 import { syncInBackgroundIfStale } from "../utils/instagram.server";
+import { hasInstagramFeature } from "../utils/plans";
 
 // Storefront endpoint for the Instagram feed app block, reached through the
 // app proxy at /apps/termguard/api/instafeed (signature-verified below).
@@ -16,9 +17,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const shop = session.shop;
 
-  // Pro feature: on the free plan the block renders nothing for shoppers.
+  // Needs the Instagram or Pro plan; otherwise the block renders nothing for shoppers.
   const settings = await db.settings.findUnique({ where: { shop }, select: { plan: true } });
-  if (settings?.plan !== "pro") {
+  if (!hasInstagramFeature(settings?.plan)) {
     return Response.json({ posts: [], feed: DEFAULT_FEED, username: null });
   }
 
