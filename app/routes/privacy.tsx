@@ -60,7 +60,6 @@ export default function PrivacyPolicy() {
                   <li style={li}><strong>Access token</strong> — a Shopify-issued token to authenticate API requests on your behalf</li>
                   <li style={li}><strong>App settings</strong> — your checkbox configuration, design preferences, agreement text, and link URLs</li>
                   <li style={li}><strong>Analytics events</strong> — anonymous checkbox interaction data (checked/unchecked, location, timestamp) with no personally identifiable customer information</li>
-                  <li style={li}><strong>Monthly order count</strong> — used only to enforce free plan limits</li>
                   <li style={li}><strong>Support messages</strong> — name, email, and message content when you contact us through the app</li>
                   <li style={li}><strong>Instagram feed (optional)</strong> — if you connect an Instagram Business or Creator account: your Instagram user ID, username, account type, an Instagram access token, and your recent posts' media URLs, captions, permalinks and timestamps. Photos and videos you upload for the feed are stored on our servers.</li>
                 </ul>
